@@ -51,7 +51,7 @@ class WritePage extends Component {
     };
 
     saveDraft = (content) => {
-    }
+      }
 
     render() {
         return (
@@ -68,7 +68,7 @@ class WritePage extends Component {
                     setContent={this.setContent.bind(this)}
                     setTheme={this.setTheme.bind(this)}
                     content={this.state.content}
-                    theme={this.state.title}
+                    theme={this.state.theme}
                     onShowReportsInThePastClicked = {this.onShowReportsInThePastClicked}
                     insertPhotoUrl = {this.insertPhotoUrl}
                     saveDraft = {this.saveDraft}

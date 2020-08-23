@@ -1,0 +1,78 @@
+.avatar {
+    height: 32px;
+    float: right;
+    padding-right: 20px;
+}
+
+.header-space {
+    margin-left: 20px;
+    font-size: 15px;
+}
+
+.logo {
+    float: left;
+    padding-left: 20px;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bolder;
+}
+
+.logo .icon {
+    height: 30px;
+    width: 30px;
+    margin-bottom: 5px;
+}
+.logout {
+    float: left;
+    padding: 10px;
+}
+
+.content {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.site-layout .site-layout-background {
+    background: #fff;
+}
+[data-theme="dark"] .site-layout .site-layout-background {
+    /* background: #141414; */
+}
+
+header {
+    width: 100vw;
+    height: 50px;
+    background: black;
+    line-height: 50px;
+    z-index: 9
+}
+
+.message-icon {
+
+
+    font-size: 25px;
+    font-weight: 100;
+    color: white;
+}
+
+.message {
+    float: right;
+    padding-top: 7px;
+    margin-right: 20px;
+}
+
+.feedback-icon {
+    font-size: 25px;
+    font-weight: 100;
+    color: white;
+}
+
+.feedback {
+    float: right;
+    padding-top: 8px;
+    margin-right: 20px;
+}
+
+.sessionExpired {
+    min-width: 20vw;
+}

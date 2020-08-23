@@ -388,7 +388,7 @@ class NewMain extends React.Component {
   render() {
     return (
       <Layout className="layout">
-        <Header style={{padding:0}}>
+        <Header>
           <span className="logo">
               <a href="https://microsoft.sharepoint.com/">
               <img className="icon" src={require('../../styles/Main/logo.ico')} alt="Microsoft logo"/>
@@ -406,7 +406,7 @@ class NewMain extends React.Component {
           <Sider>
             <UserInfoPage userInfo={this.props.userInfo}></UserInfoPage>
           </Sider>
-          <Content style={{ padding: '0 0px' }}>
+          <Content style={{ padding: '0 50px' }}>
             {/* <Breadcrumb style={{ margin: '16px 0' }}>
               <Breadcrumb.Item>Home</Breadcrumb.Item>
               <Breadcrumb.Item>List</Breadcrumb.Item>

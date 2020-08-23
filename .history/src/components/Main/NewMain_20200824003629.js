@@ -388,7 +388,7 @@ class NewMain extends React.Component {
   render() {
     return (
       <Layout className="layout">
-        <Header style={{padding:0}}>
+        <Header>
           <span className="logo">
               <a href="https://microsoft.sharepoint.com/">
               <img className="icon" src={require('../../styles/Main/logo.ico')} alt="Microsoft logo"/>

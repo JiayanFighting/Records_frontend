@@ -2,7 +2,7 @@ import React from "react";
 import Tour from "reactour";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import "antd/dist/antd.css";
-import "../../styles/Main/NewMain.css";
+import "../../styles/Main/Main.css";
 import {Layout, Menu, Avatar, Tooltip, Col, Badge, Popover, Upload, Button, Breadcrumb} from "antd";
 import UserInfoPage from "../Main/UserManagement/UserInfoPage";
 import TeamManagement from "./TeamManagement/TeamManagement";
@@ -386,17 +386,69 @@ class NewMain extends React.Component {
     this.setState({currentTab:e.key})
   }
   render() {
+    let username = this.props.userInfo.username;
+    let userEmail = this.props.userInfo.email;
+    console.log(this.props.userInfo);
+    //tour
+    const { isTourOpen, messageCount } = this.state;
+    const accentColor = "#5cb7b7";
+    let title = (
+        <div>
+          {this.props.userInfo.avatar === undefined || this.props.userInfo.avatar === null ||this.props.userInfo.avatar.length === 0?
+            <Avatar style={{ color: "#f56a00", backgroundColor: "#fde3cf" }}>
+              {parseName(username)}
+            </Avatar>
+            :
+            <Avatar src={ROOT+this.props.userInfo.avatar}/>
+          }
+          <span style={{marginLeft: "10px"}}>
+            <span>{username}</span>
+            <Tooltip title="For some special reasons, we can't get your displayName and avatar, but we support updating your avatar within this tool.">
+              <QuestionCircleOutlined />
+            </Tooltip>
+          </span>
+        </div>
+    );
+    let content = (
+      <div>
+        <div style={{"overflow": "auto"}}>
+          {/* <a onClick={this.onChangePhotoModal}>
+            Update avatar Modal
+          </a> */}
+          <ImgCrop rotate>
+              <Upload
+                listType="text"
+                // fileList={fileList}
+                onChange={(info)=>{
+                  const{status}  = info.file;
+                  if (status !== 'uploading') {
+                      this.saveAPhoto(info.file.originFileObj);
+                  }
+              }}
+                onPreview={this.onPreview}
+                name={this.props.userInfo.userEmail+".jpg"}
+                showUploadList={false}
+              >
+                {/* {fileList.length < 5 && '+ Upload'} */}
+                <a>Update avatar </a>
+                {/* <Button>
+                  <UploadOutlined /> Upload
+                </Button> */}
+              </Upload>
+            </ImgCrop>
+        </div>
+        <div style={{"overflow": "auto"}}>
+          <a href="#" className="logout" onClick={this.props.handleLogout}>
+            <LogoutOutlined /> Logout
+          </a>
+        </div>
+      </div>
+    );
     return (
       <Layout className="layout">
-        <Header style={{padding:0}}>
-          <span className="logo">
-              <a href="https://microsoft.sharepoint.com/">
-              <img className="icon" src={require('../../styles/Main/logo.ico')} alt="Microsoft logo"/>
-              </a>
-              <span>&nbsp;Jiayan</span>
-              <span className={"header-space"}>Recording</span>
-            </span>
-          <Menu mode="horizontal" defaultSelectedKeys={['2']} onClick={this.onClick}>
+        <Header>
+          <div className="logo" />
+          <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']} onClick={this.onClick}>
             <Menu.Item key="Write Note">添加笔记</Menu.Item>
             <Menu.Item key="Notes">笔记</Menu.Item>
             <Menu.Item key="Templates">模板库</Menu.Item>
@@ -406,12 +458,12 @@ class NewMain extends React.Component {
           <Sider>
             <UserInfoPage userInfo={this.props.userInfo}></UserInfoPage>
           </Sider>
-          <Content style={{ padding: '0 0px' }}>
-            {/* <Breadcrumb style={{ margin: '16px 0' }}>
+          <Content style={{ padding: '0 50px' }}>
+            <Breadcrumb style={{ margin: '16px 0' }}>
               <Breadcrumb.Item>Home</Breadcrumb.Item>
               <Breadcrumb.Item>List</Breadcrumb.Item>
               <Breadcrumb.Item>App</Breadcrumb.Item>
-            </Breadcrumb> */}
+            </Breadcrumb>
             <div className="site-layout-content">
               {this.showMainContent()}
             </div>
@@ -421,6 +473,43 @@ class NewMain extends React.Component {
       </Layout>
   );
   }
+  //for user guide config, if you want to add more, just add a data-tut contribute.
+  tourConfig = [
+
+        //user guide for write report page
+        {
+          selector: '[data-tut="tour_writeReport"]',
+          content: `Write your report here or send report by email here, please join a team before wrting`,
+          action: () => {
+            if (this.state.currentTab !== "Write Report") {
+              this.setState({ currentTab: "Write Report" });
+            }
+          },
+        },
+
+      //user guide for reports
+        {
+          selector: '[data-tut="tour_reports"]',
+          content: `Manage the reports in your team, or review your report history`,
+          action: () => {
+            if (this.state.currentTab !== "Reports") {
+              this.setState({ currentTab: "Reports" });
+            }
+          },
+        },
+      
+    //user guide for team
+    {
+      selector: '[data-tut="tour_team"]',
+      content: `Create or join a team`,
+      action: () => {
+        if (this.state.currentTab !== "Team Management") {
+          this.setState({ currentTab: "Team Management" });
+        }
+      },
+    },
+
+  ];
 }
 
 export default NewMain;

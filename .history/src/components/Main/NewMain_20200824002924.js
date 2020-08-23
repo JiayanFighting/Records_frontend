@@ -2,7 +2,7 @@ import React from "react";
 import Tour from "reactour";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import "antd/dist/antd.css";
-import "../../styles/Main/NewMain.css";
+import "../../styles/Main/Main.css";
 import {Layout, Menu, Avatar, Tooltip, Col, Badge, Popover, Upload, Button, Breadcrumb} from "antd";
 import UserInfoPage from "../Main/UserManagement/UserInfoPage";
 import TeamManagement from "./TeamManagement/TeamManagement";
@@ -388,7 +388,7 @@ class NewMain extends React.Component {
   render() {
     return (
       <Layout className="layout">
-        <Header style={{padding:0}}>
+        <Header>
           <span className="logo">
               <a href="https://microsoft.sharepoint.com/">
               <img className="icon" src={require('../../styles/Main/logo.ico')} alt="Microsoft logo"/>
@@ -406,7 +406,7 @@ class NewMain extends React.Component {
           <Sider>
             <UserInfoPage userInfo={this.props.userInfo}></UserInfoPage>
           </Sider>
-          <Content style={{ padding: '0 0px' }}>
+          <Content style={{ padding: '0 50px' }}>
             {/* <Breadcrumb style={{ margin: '16px 0' }}>
               <Breadcrumb.Item>Home</Breadcrumb.Item>
               <Breadcrumb.Item>List</Breadcrumb.Item>

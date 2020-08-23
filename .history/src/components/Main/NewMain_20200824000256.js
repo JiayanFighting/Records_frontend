@@ -28,7 +28,6 @@ import {saveAvatar} from '../../services/photoService';
 import WriteBoard from "./WriteAndView/WriteBoard";
 import NotesPage from "./NoteManagement/NotesPage";
 import TemplatesPage from "./TemplateManagement/TemplatesPage";
-import WritePage from "./WriteManagement/WritePage";
 const { Sider, Content, Header,Footer } = Layout;
 
 class NewMain extends React.Component {
@@ -146,7 +145,25 @@ class NewMain extends React.Component {
   showMainContent = () => {
     if (this.state.currentTab === "Write Note") {
       return (
-          <WritePage userInfo={this.props.userInfo}></WritePage>
+          <TeamManagement
+              userInfo={this.props.userInfo}
+              onSessionExpired={this.onSessionExpired}
+              data-tut="tour_team_inside"
+          />
+          // <WriteAndViewBoard3
+          //     setContent={this.setContent.bind(this)}
+          //     content={this.state.content}
+          //     defaultText={"defaultText"}
+          //     setTheme={this.setTheme.bind(this)}
+          //     theme={this.state.theme}
+          //     // sprintObj={this.props.sprintObj}
+          //     teamInfo={this.props.teamInfo}
+          //     // onShowReportsInThePastClicked = {this.onShowReportsInThePastClicked}
+          //     // insertPhotoUrl = {this.insertPhotoUrl}
+          //     // saveDraft = {this.saveDraft}
+          //     hideSomeFunctions={true}
+          // />
+          // <WriteBoard/>
       );
     } else if (this.state.currentTab === "Notes") {
       return (

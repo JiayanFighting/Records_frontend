@@ -4,7 +4,6 @@ import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import "antd/dist/antd.css";
 import "../../styles/Main/Main.css";
 import {Layout, Menu, Avatar, Tooltip, Col, Badge, Popover, Upload, Button, Breadcrumb} from "antd";
-import UserInfoPage from "../Main/UserManagement/UserInfoPage";
 import TeamManagement from "./TeamManagement/TeamManagement";
 import ReportPage from "./ReportManagement/ReportPage";
 import WriteReport from "./WriteReport/WriteReport";
@@ -13,7 +12,16 @@ import SubmitSuccess from "./WriteReport/SubmitSuccess";
 import { showError } from "../../services/notificationService";
 import { parseName } from "../../services/Utils";
 import ImgCrop from 'antd-img-crop';
-import {LogoutOutlined,QuestionCircleOutlined} from "@ant-design/icons";
+import {
+  TeamOutlined,
+  SnippetsOutlined,
+  EditOutlined,
+  LogoutOutlined,
+  BugOutlined,
+  FileSearchOutlined,
+  PlusSquareOutlined,
+  LoadingOutlined, QuestionCircleOutlined,UploadOutlined
+} from "@ant-design/icons";
 import { API_ROOT, TOKEN_KEY, ROOT, USER_TYPE_SUPER_ADMIN, USER_TYPE_ADMIN } from "../../constants";
 import Modal from "./HelperComponents/Modal";
 import { logout } from "../../services/loginService";
@@ -27,8 +35,6 @@ import {getMessage} from "../../services/messageService";
 import {saveAvatar} from '../../services/photoService';
 import WriteBoard from "./WriteAndView/WriteBoard";
 import NotesPage from "./NoteManagement/NotesPage";
-import TemplatesPage from "./TemplateManagement/TemplatesPage";
-import WritePage from "./WriteManagement/WritePage";
 const { Sider, Content, Header,Footer } = Layout;
 
 class NewMain extends React.Component {
@@ -146,7 +152,25 @@ class NewMain extends React.Component {
   showMainContent = () => {
     if (this.state.currentTab === "Write Note") {
       return (
-          <WritePage userInfo={this.props.userInfo}></WritePage>
+          <TeamManagement
+              userInfo={this.props.userInfo}
+              onSessionExpired={this.onSessionExpired}
+              data-tut="tour_team_inside"
+          />
+          // <WriteAndViewBoard3
+          //     setContent={this.setContent.bind(this)}
+          //     content={this.state.content}
+          //     defaultText={"defaultText"}
+          //     setTheme={this.setTheme.bind(this)}
+          //     theme={this.state.theme}
+          //     // sprintObj={this.props.sprintObj}
+          //     teamInfo={this.props.teamInfo}
+          //     // onShowReportsInThePastClicked = {this.onShowReportsInThePastClicked}
+          //     // insertPhotoUrl = {this.insertPhotoUrl}
+          //     // saveDraft = {this.saveDraft}
+          //     hideSomeFunctions={true}
+          // />
+          // <WriteBoard/>
       );
     } else if (this.state.currentTab === "Notes") {
       return (
@@ -154,7 +178,11 @@ class NewMain extends React.Component {
       );
     } else if (this.state.currentTab === "Templates") {
       return (
-          <TemplatesPage />
+          <TeamManagement
+              userInfo={this.props.userInfo}
+              onSessionExpired={this.onSessionExpired}
+              data-tut="tour_team_inside"
+          />
       );
     } else if (this.state.currentTab === "Team Management") {
       return (
@@ -484,9 +512,7 @@ class NewMain extends React.Component {
           </Menu>
         </Header>
         <Layout>
-          <Sider>
-            <UserInfoPage userInfo={this.props.userInfo}></UserInfoPage>
-          </Sider>
+          <Sider>Sider</Sider>
           <Content style={{ padding: '0 50px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
               <Breadcrumb.Item>Home</Breadcrumb.Item>

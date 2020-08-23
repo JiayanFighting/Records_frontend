@@ -146,7 +146,7 @@ class NewMain extends React.Component {
   showMainContent = () => {
     if (this.state.currentTab === "Write Note") {
       return (
-          <WritePage userInfo={this.props.userInfo}></WritePage>
+          <WritePage></WritePage>
       );
     } else if (this.state.currentTab === "Notes") {
       return (

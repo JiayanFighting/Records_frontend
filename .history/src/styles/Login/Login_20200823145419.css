@@ -1,0 +1,27 @@
+.login-btn {
+    float: center;
+    margin-top: 2vh;
+}
+
+.backgroundImg::before {
+    background: url("../../image/IMG_0269.jpeg") no-repeat;
+    background-size: cover;
+    width: 100vw;
+    height: 100vh;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;/*-1 可以当背景*/;
+}
+
+.backgroundImg {
+    background: rgba(1, 1, 1, 0.4);
+    height:100vh;
+}
+
+.login-card {
+    top:22%;
+    margin-left:32%;
+    position: relative;
+}

@@ -1,0 +1,75 @@
+{
+  "msg": "Success",
+		"code": 0,
+		"createdList": 
+		[{
+		"id": 1,
+		"teamName": "Team 6",
+		"teamEmail": "t-jiayhu@microsoft",
+		"teamDesc": "This is the first team.",
+		"leadEmail": "t-jiayhu@microsoft",
+		"sprint": 1,
+		"createTime": "2020-06-10 18:21:03",
+		"lastUpdateTime": "2020-06-10 18:32:10",
+		"statusCode": 0
+		},
+  {
+    "id": 2,
+    "teamName": "Team 7",
+    "teamEmail": "t-jiayhu@microsoft",
+    "teamDesc": "This is the first team.",
+    "leadEmail": "t-jiayhu@microsoft",
+    "sprint": 1,
+    "createTime": "2020-06-10 18:21:03",
+    "lastUpdateTime": "2020-06-10 18:32:10",
+    "statusCode": 0
+    }
+    ,
+  {
+    "id": 3,
+    "teamName": "Team 8",
+    "teamEmail": "t-jiayhu@microsoft",
+    "teamDesc": "This is the first team.",
+    "leadEmail": "t-jiayhu@microsoft",
+    "sprint": 1,
+    "createTime": "2020-06-10 18:21:03",
+    "lastUpdateTime": "2020-06-10 18:32:10",
+    "statusCode": 0
+    }
+    ,
+  {
+    "id": 4,
+    "teamName": "Team 9",
+    "teamEmail": "t-jiayhu@microsoft",
+    "teamDesc": "This is the first team.",
+    "leadEmail": "t-jiayhu@microsoft",
+    "sprint": 1,
+    "createTime": "2020-06-10 18:21:03",
+    "lastUpdateTime": "2020-06-10 18:32:10",
+    "statusCode": 0
+    }
+    ,
+  {
+    "id": 5,
+    "teamName": "Team 10",
+    "teamEmail": "t-jiayhu@microsoft",
+    "teamDesc": "This is the first team.",
+    "leadEmail": "t-jiayhu@microsoft",
+    "sprint": 1,
+    "createTime": "2020-06-10 18:21:03",
+    "lastUpdateTime": "2020-06-10 18:32:10",
+    "statusCode": 0
+    },
+    {
+      "id": 11,
+      "teamName": "Team 11",
+      "teamEmail": "t-jiayhu@microsoft",
+      "teamDesc": "This is the first team.",
+      "leadEmail": "t-jiayhu@microsoft",
+      "sprint": 1,
+      "createTime": "2020-06-10 18:21:03",
+      "lastUpdateTime": "2020-06-10 18:32:10",
+      "statusCode": 0
+      }
+  ]
+}

@@ -1,0 +1,8 @@
+    {
+    "from": "mock@qq.com",
+      "to": "mock@qq.com",
+      "content":"some text",
+      "reportType":"weekly",
+      "theme":"testTheme",
+      "teamId":1
+    }

@@ -1,0 +1,37 @@
+{
+  "msg": "Success",
+	"code": 0,
+	"members":
+	[{
+			"email": "member1@microsoft.com",
+			"username": "Jiayan Huang"
+		},{
+			"email": "member2@microsoft.com",
+			"username": "Jiayan Huang"
+		},{
+			"email": "member3@microsoft.com",
+			"username": "Jiayan Huang"
+		},{
+			"email": "member5@microsoft.com",
+			"username": "Jiayan Huang"
+		},{
+			"email": "member6@microsoft.com",
+			"username": "Jiayan Huang"
+		},{
+			"email": "member6@microsoft.com",
+			"username": "Jiayan Huang"
+		}
+	],
+		"info":
+		{
+			"id": 1,
+			"teamName": "firstTeam",
+			"teamEmail": "t-jiayhu@microsoft",
+			"teamDesc": "This is the first team.",
+			"leadEmail": "t-jiayhu@microsoft",
+			"sprint": 1,
+			"createTime": "2020-06-10",
+			"lastUpdateTime": "2020-06-10",
+			"statusCode": 0
+		}
+}

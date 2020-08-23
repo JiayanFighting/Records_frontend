@@ -1,0 +1,4 @@
+.CodeMirror .cm-spell-error{
+    background: url(./underline.gif) bottom repeat-x;
+    color:red
+}

@@ -3,7 +3,7 @@ import '../../../styles/Main/TeamManagement/TeamManagement.css';
 import {Card, Col, Row, Button, Input, Spin,Typography,message} from "antd";
 import 'antd/dist/antd.css';
 import {DeleteOutlined} from '@ant-design/icons';
-import { ROOT } from '../../../constants';
+import { ROOT, IMAGE_ROOT } from '../../../constants';
 import WriteBoard from '../WriteManagement/WriteBoard';
 import ViewBoard from '../WriteManagement/ViewBoard'
 import Modal from "../../Main/HelperComponents/Modal";
@@ -32,15 +32,14 @@ class WritePage extends Component {
 
     insertPhotoUrl = (url) => {
         let content = this.state.content;
-        // for example: <img src="https://weekly.omsz.io:3000/5/yixuan.zhang@dchdc.net/FAD75E474ECD4270BEC36C497961564E.png" alt=“upload”  width="100%">
-        // when sending email, convert to base64
         content =
         '<img src="' +
-        ROOT +
+        IMAGE_ROOT +
         url +
         '" alt="image uploaded' +
         '" width="50%"/> \n' +
         content;
+        console.log("Image Path="+IMAGE_ROOT+ url )
         this.setState({ content: content });
     };
 

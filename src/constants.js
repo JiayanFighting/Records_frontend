@@ -5,7 +5,7 @@ export const PIC_KEY = 'PIC_KEY';
 //export const ROOT = 'https://139.196.8.131:3000';
 export const API_ROOT = 'http://localhost:8080';
 export const ROOT = 'http://localhost:3000';
-export const IMAGE_ROOT = 'http://139.196.8.131/'
+export const IMAGE_ROOT = 'http://139.196.8.131'
 
 export const JOIN_OPERATION = 'JOIN_OPERATION';
 export const NOTIFICATION_OPERATION = 'NOTIFICATION_OPERATION';

@@ -15,7 +15,7 @@ class UserInfoPage extends React.Component {
     render() {
         return (
             <div style={{backgroundColor:"white"}}>
-                <Avatar size={100} src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                <Avatar size={100} src="http://139.196.8.131/aboutme.jpg" />
                 <Card >
                 <Meta title={this.props.userInfo.username}
                 description={this.props.userInfo.email}

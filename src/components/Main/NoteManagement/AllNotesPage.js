@@ -5,6 +5,7 @@ import { List, Avatar, Space, message} from "antd";
 import { MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons';
 import NoteItem from './NoteItem';
 import {getNotesListService} from "../../../services/noteService";
+import { IMAGE_ROOT } from '../../../constants';
 
 const IconText = ({ icon, text }) => (
     <Space>
@@ -13,7 +14,7 @@ const IconText = ({ icon, text }) => (
     </Space>
   );
 
-class NotesPage extends Component {
+class AllNotesPage extends Component {
     state={
         notes:[],
         note:[],
@@ -63,11 +64,11 @@ class NotesPage extends Component {
                         pagination={{pageSize: 3,
                         }}
                         dataSource={this.state.notes}
-                        footer={
-                        <div>
-                            <b>ant design</b> footer part
-                        </div>
-                        }
+                        // footer={
+                        // <div>
+                        //     <b>ant design</b> footer part
+                        // </div>
+                        // }
                         renderItem={item => (
                         <List.Item
                             key={item.title}
@@ -85,7 +86,7 @@ class NotesPage extends Component {
                             }
                         >
                             <List.Item.Meta
-                            avatar={<Avatar src={item.avatar} />}
+                            avatar={<Avatar src={IMAGE_ROOT+this.props.userInfo.avatar} />}
                             title={<a onClick={()=>this.showDetail(item)}>{item.title}</a>}
                             description={item.description}
                             />
@@ -101,4 +102,4 @@ class NotesPage extends Component {
     }
 }
 
-export default NotesPage;
+export default AllNotesPage;

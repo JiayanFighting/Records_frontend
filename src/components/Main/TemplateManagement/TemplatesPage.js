@@ -16,6 +16,7 @@ class TemplatesPage extends Component {
         return (
             <div>
                 这里是模板库
+                待更新...
             </div>
         );
     }

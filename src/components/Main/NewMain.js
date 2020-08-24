@@ -25,10 +25,12 @@ import {getTeamInfoService} from "../../services/teamService";
 import {getMessage} from "../../services/messageService";
 import {saveAvatar} from '../../services/photoService';
 import WriteBoard from "./WriteAndView/WriteBoard";
-import NotesPage from "../Main/NoteManagement/NotesPage";
+import MyNotesPage from "../Main/NoteManagement/MyNotesPage";
+import AllNotesPage from "../Main/NoteManagement/AllNotesPage";
 import TemplatesPage from "./TemplateManagement/TemplatesPage";
 import WritePage from "./WriteManagement/WritePage";
 import AboutmePage from "./UserManagement/AboutmePage";
+import CategoryPage from "./CategoryManagement/CategoryPage";
 
 const { Sider, Content, Header,Footer } = Layout;
 
@@ -135,13 +137,21 @@ class NewMain extends React.Component {
       );
     } else if (this.state.currentTab === "Notes") {
       return (
-        <NotesPage  userInfo={this.props.userInfo}/>
+        <MyNotesPage  userInfo={this.props.userInfo}/>
+      );
+    } else if (this.state.currentTab === "Square") {
+      return (
+        <AllNotesPage  userInfo={this.props.userInfo}/>
       );
     } else if (this.state.currentTab === "Templates") {
       return (
           <TemplatesPage />
       );
-    }else if (this.state.currentTab === "Aboutme") {
+    } else if (this.state.currentTab === "Category") {
+      return (
+          <CategoryPage />
+      );
+    } else if (this.state.currentTab === "Aboutme") {
       return (
           <AboutmePage />
       );
@@ -407,13 +417,13 @@ class NewMain extends React.Component {
                 <LogoutOutlined /> Logout
               </a>
           </span>
-          <Menu mode="horizontal" defaultSelectedKeys={['2']} onClick={this.onClick} style={{paddingLeft:300}}>
-            <Menu.Item key="Write Note">添加笔记</Menu.Item>
-            <Menu.Item key="Notes">笔记</Menu.Item>
+          <Menu mode="horizontal" defaultSelectedKeys={['Write Note']} onClick={this.onClick} style={{paddingLeft:300}}>
+            <Menu.Item key="Write Note">记笔记</Menu.Item>
+            <Menu.Item key="Notes">我的笔记</Menu.Item>
             <Menu.Item key="Templates">模板库</Menu.Item>
-            <Menu.Item key="Templates">广场</Menu.Item>
-            <Menu.Item key="Templates">分类</Menu.Item>
-            <Menu.Item key="Aboutme">关于我</Menu.Item>
+            <Menu.Item key="Square">广场</Menu.Item>
+            <Menu.Item key="Category">分类</Menu.Item>
+            <Menu.Item key="Aboutme">关于</Menu.Item>
           </Menu>
         </Header>
         <Layout>

@@ -4,6 +4,7 @@ import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import "antd/dist/antd.css";
 import "../../styles/Main/NewMain.css";
 import {Layout, Menu, Avatar, Tooltip, Col, Badge, Popover, Upload, Button, Breadcrumb} from "antd";
+import { LogoutOutlined } from "@ant-design/icons";
 import UserInfoPage from "../Main/UserManagement/UserInfoPage";
 import TeamManagement from "./TeamManagement/TeamManagement";
 import ReportPage from "./ReportManagement/ReportPage";
@@ -13,7 +14,6 @@ import SubmitSuccess from "./WriteReport/SubmitSuccess";
 import { showError } from "../../services/notificationService";
 import { parseName } from "../../services/Utils";
 import ImgCrop from 'antd-img-crop';
-import {LogoutOutlined,QuestionCircleOutlined} from "@ant-design/icons";
 import { API_ROOT, TOKEN_KEY, ROOT, USER_TYPE_SUPER_ADMIN, USER_TYPE_ADMIN } from "../../constants";
 import Modal from "./HelperComponents/Modal";
 import { logout } from "../../services/loginService";
@@ -29,6 +29,7 @@ import NotesPage from "../Main/NoteManagement/NotesPage";
 import TemplatesPage from "./TemplateManagement/TemplatesPage";
 import WritePage from "./WriteManagement/WritePage";
 import AboutmePage from "./UserManagement/AboutmePage";
+
 const { Sider, Content, Header,Footer } = Layout;
 
 class NewMain extends React.Component {
@@ -401,6 +402,11 @@ class NewMain extends React.Component {
             <span>&nbsp;Jiayan</span>
             <span className={"header-space"}>Recording</span>
           </span>
+          <span className="logout">
+              <a onClick={this.props.handleLogout}>
+                <LogoutOutlined /> Logout
+              </a>
+          </span>
           <Menu mode="horizontal" defaultSelectedKeys={['2']} onClick={this.onClick} style={{paddingLeft:300}}>
             <Menu.Item key="Write Note">添加笔记</Menu.Item>
             <Menu.Item key="Notes">笔记</Menu.Item>
@@ -412,7 +418,7 @@ class NewMain extends React.Component {
         </Header>
         <Layout>
           <Sider>
-            <UserInfoPage userInfo={this.props.userInfo}></UserInfoPage>
+            <UserInfoPage userInfo={this.props.userInfo} handleUpdateAvatar={this.props.handleUpdateAvatar}/>
           </Sider>
           <Content>
             {/* <Breadcrumb style={{ margin: '16px 0' }}>

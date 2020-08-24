@@ -23,8 +23,9 @@
     margin-bottom: 5px;
 }
 .logout {
-    float: left;
-    padding: 10px;
+    float: right;
+    margin-right: 20px;
+    /* padding-top: -5px; */
 }
 
 .content {
@@ -57,7 +58,7 @@ header {
 
 .message {
     float: right;
-    padding-top: 7px;
+    /* padding-top: 7px; */
     margin-right: 20px;
 }
 

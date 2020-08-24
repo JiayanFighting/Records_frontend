@@ -63,11 +63,12 @@ class App extends Component {
     handleLogout = () => {
         localStorage.removeItem(TOKEN_KEY);
         localStorage.clear();
-        logout().then((res) => {
-            this.setState({isLoggedIn: false})
-        }).catch((err) => {
-            showError("Failed to logout, haha");
-        });
+        this.setState({isLoggedIn: false})
+        // logout().then((res) => {
+        //     this.setState({isLoggedIn: false})
+        // }).catch((err) => {
+        //     showError("Failed to logout, haha");
+        // });
     };
 
     handleUpdateAvatar = (url) => {

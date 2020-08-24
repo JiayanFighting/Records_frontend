@@ -168,6 +168,7 @@ export default class WriteBoard extends React.Component {
     return (<PhotoDragger
       style={{"margin-right": "20px", "margin-left": "20px"}}
       teamId={1}
+      userId={1}
       insertPhotoUrl={this.props.insertPhotoUrl}
   />);
 

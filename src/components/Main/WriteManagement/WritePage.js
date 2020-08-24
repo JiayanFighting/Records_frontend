@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import '../../../styles/Main/TeamManagement/TeamManagement.css';
-import {Card, Col, Row, Button, Input, Spin,Space,Table, message,Popconfirm,Avatar,Popover,Typography} from "antd";
+import {Card, Col, Row, Button, Input, Spin,Typography,message} from "antd";
 import 'antd/dist/antd.css';
-import {DeleteOutlined,UserOutlined} from '@ant-design/icons';
-import Text from 'antd/lib/typography/Text';
+import {DeleteOutlined} from '@ant-design/icons';
 import { ROOT } from '../../../constants';
 import WriteBoard from '../WriteManagement/WriteBoard';
 import ViewBoard from '../WriteManagement/ViewBoard'
 import Modal from "../../Main/HelperComponents/Modal";
+import {submitNoteService} from "../../../services/noteService";
 const { Meta } = Card;
 const { Search } = Input;
 const { Paragraph } = Typography;
@@ -69,7 +69,28 @@ class WritePage extends Component {
     };
 
     submitNote=()=>{
-        // console.log(content);
+        this.setState({isLoading:true});
+        let params ={
+            userId:this.props.userInfo.userId,
+            directory:0,
+            type:"技术",
+            tags:"Java",
+            title:this.state.title,
+            content:this.state.content,
+            cover:"http://139.196.8.131/aboutme.jpg",
+            thumbUp:14,
+            star:34,
+        }
+        submitNoteService(params).then((res) => {
+            message.success("Successfully submitted!");
+            this.setState({showSubmitModal:false,isLoading:false});
+        }).catch((err) => {
+            if (err === 302) {
+                this.props.onSessionExpired();
+            } else {
+                message.error("Failed to submit!");
+            }
+        });
     }
 
     render() {

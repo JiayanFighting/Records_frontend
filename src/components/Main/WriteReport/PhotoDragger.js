@@ -53,7 +53,9 @@ class PhotoDragger extends Component {
     if (!this.state.uploadSuccess) return;
     const data = new FormData();
     data.append('photo',file);
-    data.append('teamId',this.props.teamId);
+    data.append('userId',this.props.userId);
+    console.log("data====");
+    console.log(data);
     savePhoto(data).then((res) => {
         this.props.insertPhotoUrl(res.url);
         this.setState({isLoading:false});

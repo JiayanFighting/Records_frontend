@@ -1,5 +1,5 @@
 const { createProxyMiddleware } = require('http-proxy-middleware');
-let API_ROOT = 'https://localhost:8080';
+let API_ROOT = 'http://localhost:8080';
 // let Photo_ROOT = 'https://localhost:8082'
 
 module.exports = function(app) {

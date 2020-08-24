@@ -3,8 +3,8 @@ export const PIC_KEY = 'PIC_KEY';
 
 //export const API_ROOT = 'https://139.196.8.131:8080';
 //export const ROOT = 'https://139.196.8.131:3000';
-export const API_ROOT = 'https://localhost:8080';
-export const ROOT = 'https://localhost:3000';
+export const API_ROOT = 'http://localhost:8080';
+export const ROOT = 'http://localhost:3000';
 
 export const JOIN_OPERATION = 'JOIN_OPERATION';
 export const NOTIFICATION_OPERATION = 'NOTIFICATION_OPERATION';

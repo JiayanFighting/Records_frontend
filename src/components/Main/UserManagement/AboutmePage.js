@@ -16,7 +16,7 @@ const aboutme =
 
 Email： JiayanFighting@qq.com
 
-<img src="../../../image/aboutme.jpg" alt="50" style="zoom:15%;" />
+<img src="http://139.196.8.131/aboutme.jpg" alt="50" style="zoom:15%;" />
 
 ### 教育背景
 

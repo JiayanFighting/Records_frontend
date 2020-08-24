@@ -25,6 +25,45 @@ module.exports = function(app) {
     }));
 
     // =================================================
+    // about note
+    app.use(createProxyMiddleware('/note/list', {
+        target: API_ROOT,
+        secure: false,
+        changeOrigin: false,
+    }));
+    app.use(createProxyMiddleware('/note/submit', {
+        target: API_ROOT,
+        secure: false,
+        changeOrigin: false,
+    }));
+    app.use(createProxyMiddleware('/note/update', {
+        target: API_ROOT,
+        secure: false,
+        changeOrigin: false,
+    }));
+    app.use(createProxyMiddleware('/note/delete', {
+        target: API_ROOT,
+        secure: false,
+        changeOrigin: false,
+    }));
+    app.use(createProxyMiddleware('/note/one', {
+        target: API_ROOT,
+        secure: false,
+        changeOrigin: false,
+    }));
+    app.use(createProxyMiddleware('/note/star', {
+        target: API_ROOT,
+        secure: false,
+        changeOrigin: false,
+    }));
+    app.use(createProxyMiddleware('/note/thumbUp', {
+        target: API_ROOT,
+        secure: false,
+        changeOrigin: false,
+    }));
+
+
+    // =================================================
     // about team
     app.use(createProxyMiddleware('/team/joinedTeamList', {
         target: API_ROOT,

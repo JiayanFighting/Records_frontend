@@ -33,9 +33,7 @@ marked.setOptions({
 
 class ViewBoard extends Component {
   state = {
-    width: !this.props.width || this.props.height.width === 0
-    ? "60vw"
-    : this.props.width,
+    width: "60vw",
     height:
       !this.props.height || this.props.height.length === 0
         ? "60vh"
@@ -48,7 +46,7 @@ class ViewBoard extends Component {
               style={{
                 overflow: "scroll",
                 height: this.state.height,
-                // width:"40vw"
+                width:"40vw"
               }}>
       <div
       className="markdown-body preview-wrapper"

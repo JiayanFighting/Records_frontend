@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import 'antd/dist/antd.css';
 import '../../../styles/Main/ReportManagement/ReportManagement.css';
-import { List, Avatar, Space} from "antd";
+import { List, Avatar, Space, message} from "antd";
 import { MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons';
+import NoteItem from './NoteItem';
+import {getNotesListService} from "../../../services/noteService";
 
 const IconText = ({ icon, text }) => (
     <Space>
@@ -14,59 +16,86 @@ const IconText = ({ icon, text }) => (
 class NotesPage extends Component {
     state={
         notes:[],
+        note:[],
+        showNoteDetailPage:false,
     }
     componentDidMount(){
-        for (let i = 0; i < 23; i++) {
-            this.state.notes.push({
-              href: 'https://ant.design',
-              title: `ant design part ${i}`,
-              avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-              description:
-                'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-              content:
-                'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-            });
-          }
+        getNotesListService(this.props.userInfo.userId).then((res) => {
+            console.log(res)
+            if(res.code === 0){
+                
+                this.setState({notes:res.list});
+            }else{
+                console.log(res)
+            }
+        }).catch((err) => {
+            if (err === 302) {
+                this.props.onSessionExpired();
+            } else {
+                message.error("Failed to get notes");
+            }
+        });
     }
+
+    showDetail=(item)=>{
+        this.setState({showNoteDetailPage:true,note:item});
+    }
+
+    closeDetail=()=>{
+        this.setState({showNoteDetailPage:false,note:[]});
+    }
+
+    getNoteDetail=()=>{
+        if(this.state.showNoteDetailPage) {
+            return (
+                <NoteItem note = {this.state.note} closeDetail={this.closeDetail}></NoteItem>
+            );
+        }
+    }
+
     render() {
         return (
            <div style={{backgroundColor:"white"}}>
-            <List
-                itemLayout="vertical"
-                size="large"
-                pagination={{pageSize: 3,
-                }}
-                dataSource={this.state.notes}
-                footer={
-                <div>
-                    <b>ant design</b> footer part
+               <div style={this.state.showNoteDetailPage?{display:'none'}:{}}>
+                    <List
+                        itemLayout="vertical"
+                        size="large"
+                        pagination={{pageSize: 3,
+                        }}
+                        dataSource={this.state.notes}
+                        footer={
+                        <div>
+                            <b>ant design</b> footer part
+                        </div>
+                        }
+                        renderItem={item => (
+                        <List.Item
+                            key={item.title}
+                            actions={[
+                            <IconText icon={StarOutlined} text={item.star} key="list-vertical-star-o" />,
+                            <IconText icon={LikeOutlined} text={item.thumbUp} key="list-vertical-like-o" />,
+                            <IconText icon={MessageOutlined} text="2" key="list-vertical-message" />,
+                            ]}
+                            extra={
+                            <img
+                                width={272}
+                                alt="logo"
+                                src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+                            />
+                            }
+                        >
+                            <List.Item.Meta
+                            avatar={<Avatar src={item.avatar} />}
+                            title={<a onClick={()=>this.showDetail(item)}>{item.title}</a>}
+                            description={item.description}
+                            />
+                            {item.content}
+                        </List.Item>
+                        )}
+                    />
                 </div>
-                }
-                renderItem={item => (
-                <List.Item
-                    key={item.title}
-                    actions={[
-                    <IconText icon={StarOutlined} text="156" key="list-vertical-star-o" />,
-                    <IconText icon={LikeOutlined} text="156" key="list-vertical-like-o" />,
-                    <IconText icon={MessageOutlined} text="2" key="list-vertical-message" />,
-                    ]}
-                    extra={
-                    <img
-                        width={272}
-                        alt="logo"
-                        src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-                    />
-                    }
-                >
-                    <List.Item.Meta
-                    avatar={<Avatar src={item.avatar} />}
-                    title={<a href={item.href}>{item.title}</a>}
-                    description={item.description}
-                    />
-                    {item.content}
-                </List.Item>
-                )}
-            />
+
+                {this.getNoteDetail()}
            </div>
         );
     }

@@ -25,10 +25,9 @@ import {getTeamInfoService} from "../../services/teamService";
 import {getMessage} from "../../services/messageService";
 import {saveAvatar} from '../../services/photoService';
 import WriteBoard from "./WriteAndView/WriteBoard";
-import NotesPage from "../Main/NoteManagement/NotesPage";
+import NotesPage from "./NoteManagement/NotesPage";
 import TemplatesPage from "./TemplateManagement/TemplatesPage";
 import WritePage from "./WriteManagement/WritePage";
-import AboutmePage from "./UserManagement/AboutmePage";
 const { Sider, Content, Header,Footer } = Layout;
 
 class NewMain extends React.Component {
@@ -134,15 +133,11 @@ class NewMain extends React.Component {
       );
     } else if (this.state.currentTab === "Notes") {
       return (
-        <NotesPage  userInfo={this.props.userInfo}/>
+        <NotesPage/>
       );
     } else if (this.state.currentTab === "Templates") {
       return (
           <TemplatesPage />
-      );
-    }else if (this.state.currentTab === "Aboutme") {
-      return (
-          <AboutmePage />
       );
     } else if (this.state.currentTab === "Team Management") {
       return (
@@ -395,26 +390,24 @@ class NewMain extends React.Component {
       <Layout className="layout">
         <Header style={{padding:0}}>
           <span className="logo">
-            <a href="https://microsoft.sharepoint.com/">
-            <img className="icon" src={require('../../styles/Main/logo.ico')} alt="Microsoft logo"/>
-            </a>
-            <span>&nbsp;Jiayan</span>
-            <span className={"header-space"}>Recording</span>
-          </span>
-          <Menu mode="horizontal" defaultSelectedKeys={['2']} onClick={this.onClick} style={{paddingLeft:300}}>
+              <a href="https://microsoft.sharepoint.com/">
+              <img className="icon" src={require('../../styles/Main/logo.ico')} alt="Microsoft logo"/>
+              </a>
+              <span>&nbsp;Jiayan</span>
+              <span className={"header-space"}>Recording</span>
+            </span>
+          <Menu mode="horizontal" defaultSelectedKeys={['2']} onClick={this.onClick}>
             <Menu.Item key="Write Note">添加笔记</Menu.Item>
             <Menu.Item key="Notes">笔记</Menu.Item>
             <Menu.Item key="Templates">模板库</Menu.Item>
-            <Menu.Item key="Templates">广场</Menu.Item>
-            <Menu.Item key="Templates">分类</Menu.Item>
-            <Menu.Item key="Aboutme">关于我</Menu.Item>
+            <Menu.Item key="Templates">分类d</Menu.Item>
           </Menu>
         </Header>
         <Layout>
           <Sider>
             <UserInfoPage userInfo={this.props.userInfo}></UserInfoPage>
           </Sider>
-          <Content>
+          <Content style={{ padding: '0 0px' }}>
             {/* <Breadcrumb style={{ margin: '16px 0' }}>
               <Breadcrumb.Item>Home</Breadcrumb.Item>
               <Breadcrumb.Item>List</Breadcrumb.Item>
@@ -425,7 +418,7 @@ class NewMain extends React.Component {
             </div>
           </Content>
         </Layout>
-        {/* <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer> */}
+        <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
       </Layout>
   );
   }

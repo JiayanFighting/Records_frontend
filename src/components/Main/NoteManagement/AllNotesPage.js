@@ -1,18 +1,20 @@
 import React, {Component} from 'react';
 import 'antd/dist/antd.css';
 import '../../../styles/Main/ReportManagement/ReportManagement.css';
-import { List, Avatar, Space, message} from "antd";
+import { List, Avatar, Space, message, Tag, Typography} from "antd";
 import { MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons';
 import NoteItem from './NoteItem';
 import {getNotesListService} from "../../../services/noteService";
 import { IMAGE_ROOT } from '../../../constants';
-
+const { Paragraph } = Typography;
 const IconText = ({ icon, text }) => (
     <Space>
       {React.createElement(icon)}
       {text}
     </Space>
   );
+
+const tagColors = ["blue","red","geekblue","purple","magenta","volcano","orange","gold","lime","green","cyan"];
 
 class AllNotesPage extends Component {
     state={
@@ -59,16 +61,11 @@ class AllNotesPage extends Component {
            <div style={{backgroundColor:"white"}}>
                <div style={this.state.showNoteDetailPage?{display:'none'}:{}}>
                     <List
+                        style={{textAlign:"left",paddingLeft:30}}
                         itemLayout="vertical"
-                        size="large"
-                        pagination={{pageSize: 3,
-                        }}
+                        // size="large"
+                        pagination={{pageSize: 3}}
                         dataSource={this.state.notes}
-                        // footer={
-                        // <div>
-                        //     <b>ant design</b> footer part
-                        // </div>
-                        // }
                         renderItem={item => (
                         <List.Item
                             key={item.title}
@@ -87,10 +84,17 @@ class AllNotesPage extends Component {
                         >
                             <List.Item.Meta
                             avatar={<Avatar src={IMAGE_ROOT+this.props.userInfo.avatar} />}
-                            title={<a onClick={()=>this.showDetail(item)}>{item.title}</a>}
-                            description={item.description}
+                            title={<a onClick={()=>this.showDetail(item)}><h3>{item.title}</h3></a>}
+                            description={
+                                item.tags.split(';').map((tag,index)=>{
+                                    console.log("====")
+                                    return <Tag color={tagColors[index%tagColors.length]}>{tag}</Tag>
+                                })
+                            }
                             />
-                            {item.content}
+                            <Paragraph ellipsis={{ rows: 3, expandable: true, symbol: 'more' }}>
+                                {item.content}
+                            </Paragraph>
                         </List.Item>
                         )}
                     />

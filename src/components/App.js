@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import '../styles/App/App.css';
 import { Switch, Route, Redirect, BrowserRouter } from 'react-router-dom';
-import Main from "./Main/Main";
 import NewMain from "./Main/NewMain";
 import Login from "./Login/Login";
 import {logout} from "../services/loginService";
-import {TOKEN_KEY} from "../constants";
+import {TOKEN_KEY} from "../../src/constants";
 import {showError} from "../services/notificationService";
 
 

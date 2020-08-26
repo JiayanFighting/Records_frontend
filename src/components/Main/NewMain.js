@@ -407,7 +407,7 @@ class NewMain extends React.Component {
         <Header style={{padding:0}}>
           <span className="logo">
             <a href="https://microsoft.sharepoint.com/">
-            <img className="icon" src={require('../../styles/Main/logo.ico')} alt="Microsoft logo"/>
+            <img className="icon" src={require('../../styles/Main/favicon.png')} alt="Microsoft logo"/>
             </a>
             <span>&nbsp;Jiayan</span>
             <span className={"header-space"}>Recording</span>

@@ -479,7 +479,7 @@ class Main extends React.Component {
           <header style={{"position": "fixed", "top": 0}}>
             <span className="logo">
               <a href="https://microsoft.sharepoint.com/">
-              <img className="icon" src={require('../../styles/Main/logo.ico')} alt="Microsoft logo"/>
+              <img className="icon" src={require('../../styles/Main/favicon.png')} alt="Microsoft logo"/>
               </a>
               <span>&nbsp;Microsoft</span>
               <span className={"header-space"}>Slick Report</span>

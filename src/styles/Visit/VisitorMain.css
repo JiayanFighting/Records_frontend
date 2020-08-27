@@ -1,0 +1,22 @@
+.header {
+    width: 100vw;
+    height: 40vh;
+    background: url("http://139.196.8.131/1/20200825/0D896CAA38F940BEA7A16743F84113BC.jpg");
+    background-size: cover;
+}
+
+.header span{
+    font: 4em sans-serif;
+    color: white;
+    text-align:center;
+    line-height:40vh;
+}
+
+.silder {
+    margin-top: 8px;
+    margin-left: 20px;
+}
+
+.content {
+    margin:8px;
+}

@@ -434,7 +434,6 @@ export default class WriteBoard extends React.Component {
           </Col>
           
           <Col>
-            <Tooltip title="Due to no permission, please use the copy button, paste and send email by youself"> 
               <div className={this.state.isHover === 14 ? 'change' : 'normal'}
                 onMouseOver={()=>this.setState({isHover:14})} 
                 onMouseOut={()=>this.setState({isHover:-1})}
@@ -453,7 +452,6 @@ export default class WriteBoard extends React.Component {
                 <CopyOutlined style={{fontSize:this.state.functionIconSize}}/><br/>
                 <span style={{fontSize:this.state.functionFontSize,display:this.state.displayDesc}}>Copy</span>
               </div>
-            </Tooltip>
           </Col>
           {/* <Col>
             <div className={this.props.hideSomeFunctions?"hide":(this.state.isHover === 15 ? 'change' : 'normal')}

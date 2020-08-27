@@ -114,17 +114,10 @@ class WritePage extends Component {
     };
 
     saveAPhoto= (file) => {
-        // const data = new FormData();
-        // data.append('photo',file);
-        // saveAvatar(data).then((res) => {
-        //   this.props.handleUpdateAvatar(res.url);
-        // }).catch((err) => console.log(err));
-
         const data = new FormData();
         data.append('photo',file);
         data.append('userId',this.props.userInfo.userId);
         saveCover(data).then((res) => {
-            console.log(res);
             console.log(IMAGE_ROOT+res.url);
             this.setState({coverUrl:IMAGE_ROOT+res.url});
         }).catch((err) => {
@@ -133,6 +126,29 @@ class WritePage extends Component {
     }
 
     render() {
+        const fileList= [
+              {
+                uid: '1',
+                name: 'xxx.png',
+                status: 'done',
+                response: 'Server Error 500', // custom error message to show
+                url: 'http://www.baidu.com/xxx.png',
+              },
+              {
+                uid: '2',
+                name: 'yyy.png',
+                status: 'done',
+                url: 'http://www.baidu.com/yyy.png',
+              },
+              {
+                uid: '3',
+                name: 'zzz.png',
+                status: 'error',
+                response: 'Server Error 500', // custom error message to show
+                url: 'http://www.baidu.com/zzz.png',
+              },
+            ];
+          
         return (
             <div style={{backgroundColor:"white"}}>
                 <Row justify="end" style={{paddingTop:5}}>
@@ -190,25 +206,26 @@ class WritePage extends Component {
                             
                         </Form.Item>
 
-                        <Form.Item label="封面图片路径" name="cover"
+                        <Form.Item label="封面图片" name="cover"
                             // rules={[{ required: true, message: '输入图片路径!' }]}
                         >
-                            {/* <Input /> */}
+                            {}
                             <ImgCrop rotate>
-                            <Upload
+                            <Upload  
+                                // defaultFileList={fileList}
                                 listType="text"
                                 // fileList={fileList}
                                 onChange={(info)=>{
-                                const{status}  = info.file;
-                                if (status !== 'uploading') {
-                                    this.saveAPhoto(info.file.originFileObj);
-                                }
+                                    const{status}  = info.file;
+                                    if (status !== 'uploading') {
+                                        this.saveAPhoto(info.file.originFileObj);
+                                    }
                             }}
                                 onPreview={this.onPreview}
-                                name={this.props.userInfo.userEmail+".jpg"}
+                                name={this.props.userInfo.email+".jpg"}
                                 showUploadList={false}
                             >
-                                <a>Update cover </a>
+                                {this.state.coverUrl.length === 0? <a>Update cover </a>:this.state.coverUrl }
                             </Upload>
                             </ImgCrop>
                         </Form.Item>

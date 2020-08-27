@@ -11,3 +11,7 @@ export function loginService(values){
     url.search = new URLSearchParams(values).toString();
     return getRequest(`/login${url.search}`);
 }
+
+export function registerService(values){
+    return postRequest('/register',values);
+}

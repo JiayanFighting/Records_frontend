@@ -87,7 +87,6 @@ class AllNotesPage extends Component {
                             title={<a onClick={()=>this.showDetail(item)}><h3>{item.title}</h3></a>}
                             description={
                                 item.tags.split(';').map((tag,index)=>{
-                                    console.log("====")
                                     return <Tag color={tagColors[index%tagColors.length]}>{tag}</Tag>
                                 })
                             }

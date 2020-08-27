@@ -137,7 +137,7 @@ class NewMain extends React.Component {
       );
     } else if (this.state.currentTab === "Notes") {
       return (
-        <MyNotesPage  userInfo={this.props.userInfo}/>
+        <MyNotesPage  userInfo={this.props.userInfo}  visitor={false}/>
       );
     } else if (this.state.currentTab === "Square") {
       return (
@@ -428,7 +428,7 @@ class NewMain extends React.Component {
         </Header>
         <Layout>
           <Sider style={{marginTop:8}}>
-            <UserInfoPage userInfo={this.props.userInfo} handleUpdateAvatar={this.props.handleUpdateAvatar}/>
+            <UserInfoPage userInfo={this.props.userInfo} handleUpdateAvatar={this.props.handleUpdateAvatar}  visitor={false}/>
           </Sider>
           <Content style={{margin:8}}>
             {/* <Breadcrumb style={{ margin: '16px 0' }}>

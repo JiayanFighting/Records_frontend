@@ -2,6 +2,15 @@ import {getRequest, postRequest, mockResult} from './Http';
 import {reportManagementData} from "../Mock/reportManagement/reportManagement";
 import {API_ROOT} from "../constants";
 
+
+export function getUserInfoForVisitService(email){
+    var url = new URL(API_ROOT+'/user/visitInfo')
+    let param = {"email":email}
+    url.search = new URLSearchParams(param).toString();
+    return getRequest(`/user/visitInfo${url.search}`);
+}
+
+
 export function searchUserService(content){
     var url = new URL(API_ROOT+'/user/search')
     let param = {"content":content}

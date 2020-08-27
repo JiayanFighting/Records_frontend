@@ -33,22 +33,14 @@ marked.setOptions({
 });
 
 class ViewBoard extends Component {
-  state = {
-    width: !this.props.width || this.props.height.width === 0
-    ? "60vw"
-    : this.props.width,
-    height:
-      !this.props.height || this.props.height.length === 0
-        ? "60vh"
-        : this.props.height,
-  };
   render() {
     return (
       <div
         className="common-container preview-container"
-        style={{
-          overflow: "scroll",
-          height: this.state.height,
+        style={!this.props.height || this.props.height.length === 0
+          ?{overflow: "scroll"}:
+          {overflow: "scroll",
+          height: this.props.height,
           // width:"40vw"
         }}>
         <div

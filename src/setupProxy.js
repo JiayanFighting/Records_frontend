@@ -8,6 +8,11 @@ module.exports = function(app) {
         secure: false,
         changeOrigin: false,                         //是否需要改变原始主机头为目标URL默认false，
     }));
+    app.use(createProxyMiddleware('/register', {
+        target: API_ROOT,
+        secure: false,
+        changeOrigin: false,
+    }));
     app.use(createProxyMiddleware('/logout', {
         target: API_ROOT,
         secure: false,
@@ -23,7 +28,13 @@ module.exports = function(app) {
         secure: false,
         changeOrigin: false,                         //是否需要改变原始主机头为目标URL默认false，
     }));
-
+    // =================================================
+    // about user
+    app.use(createProxyMiddleware('/user/visitInfo', {
+        target: API_ROOT,
+        secure: false,
+        changeOrigin: false,
+    }));
     // =================================================
     // about note
     app.use(createProxyMiddleware('/note/list', {

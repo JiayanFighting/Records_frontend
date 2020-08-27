@@ -1,10 +1,14 @@
 import React, {Component} from 'react';
 import 'antd/dist/antd.css';
-import '../../../styles/Main/ReportManagement/ReportManagement.css';
 import { List, Avatar, Space, message, Tag, Typography} from "antd";
-import { MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons';
+import { MessageOutlined, LikeOutlined, StarOutlined,UserOutlined } from '@ant-design/icons';
+// CSS
+import '../../../styles/Main/ReportManagement/ReportManagement.css';
+// components
 import NoteItem from './NoteItem';
+// services
 import {getNotesListService} from "../../../services/noteService";
+// const
 import { IMAGE_ROOT } from '../../../constants';
 const { Paragraph } = Typography;
 const IconText = ({ icon, text }) => (
@@ -24,7 +28,7 @@ class MyNotesPage extends Component {
         allTags:[],
     }
     componentDidMount(){
-        getNotesListService(this.props.userInfo.userId).then((res) => {
+        getNotesListService(this.props.userInfo.id).then((res) => {
             console.log(res)
             if(res.code === 0){
                 this.setState({notes:res.list});
@@ -65,7 +69,7 @@ class MyNotesPage extends Component {
     getNoteDetail=()=>{
         if(this.state.showNoteDetailPage) {
             return (
-                <NoteItem note = {this.state.note} closeDetail={this.closeDetail} deleteNote={this.deleteNote}></NoteItem>
+                <NoteItem note = {this.state.note} closeDetail={this.closeDetail} deleteNote={this.deleteNote}  visitor={this.props.visitor}></NoteItem>
             );
         }
     }
@@ -105,10 +109,10 @@ class MyNotesPage extends Component {
                     />
                    </div>
                     <List
-                        style={{textAlign:"left",paddingLeft:30}}
+                        style={{textAlign:"left",padding:"2px 20px",}}
                         itemLayout="vertical"
                         // size="large"
-                        pagination={{pageSize: 3}}
+                        pagination={{pageSize: 5}}
                         dataSource={this.state.notes}
                         renderItem={item => (
                         <List.Item
@@ -119,6 +123,7 @@ class MyNotesPage extends Component {
                             <IconText icon={MessageOutlined} text="2" key="list-vertical-message" />,
                             ]}
                             extra={
+                            item.cover === null || item.cover.length ===0?'':
                             <img
                                 height={200}
                                 alt="logo"
@@ -127,11 +132,14 @@ class MyNotesPage extends Component {
                             }
                         >
                             <List.Item.Meta
-                            avatar={<Avatar src={IMAGE_ROOT+this.props.userInfo.avatar} />}
+                            // 我的笔记 不需要头像
+                            // avatar={this.props.userInfo.avatar === null || this.props.userInfo.avatar.length === 0?
+                            //     <Avatar icon={<UserOutlined />} />:
+                            //     <Avatar src={IMAGE_ROOT+this.props.userInfo.avatar} />
+                            // }
                             title={<a onClick={()=>this.showDetail(item)}><h3>{item.title}</h3></a>}
                             description={
                                 item.tags.split(';').map((tag,index)=>{
-                                    console.log("====")
                                     return <Tag color={tagColors[index%tagColors.length]}>{tag}</Tag>
                                 })
                             }

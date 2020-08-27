@@ -6,6 +6,8 @@ import Login from "./Login/Login";
 import {logout} from "../services/loginService";
 import {TOKEN_KEY} from "../../src/constants";
 import {showError} from "../services/notificationService";
+import VisitorMain from './Visit/VisitorMain';
+import { browserHistory } from 'react-router';
 
 
 class App extends Component {
@@ -29,6 +31,14 @@ class App extends Component {
             // <Main userInfo={this.state.userInfo} handleLogout={this.handleLogout} handleLogin={this.handleLogin} handleUpdateAvatar={this.handleUpdateAvatar}/> :
             <NewMain userInfo={this.state.userInfo} handleLogout={this.handleLogout} handleLogin={this.handleLogin} handleUpdateAvatar={this.handleUpdateAvatar}/> :
             <Redirect to={'/signin'}/>
+    };
+
+    getVisit = () => {
+        console.log("visitor")
+        console.log(window.location.href)
+        let href = window.location.href;
+        let host = href.split("/")[4];
+        return <VisitorMain host={host} />
     };
 
     /**
@@ -86,6 +96,7 @@ class App extends Component {
                         <Route exact path="/" render={this.getHome}/>
                         <Route path="/signin" render={this.getLogin}/>
                         <Route path="/home" render={this.getHome}/>
+                        <Route path="/visitor" render={this.getVisit}/>
                     </Switch>
                 </BrowserRouter>
             </div>

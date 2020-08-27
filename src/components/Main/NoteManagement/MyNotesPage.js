@@ -1,15 +1,16 @@
 import React, {Component} from 'react';
 import 'antd/dist/antd.css';
-import { List, Avatar, Space, message, Tag, Typography} from "antd";
-import { MessageOutlined, LikeOutlined, StarOutlined,UserOutlined } from '@ant-design/icons';
+import { List, Avatar, Space, message, Tag, Typography, Button} from "antd";
+import { MessageOutlined, LikeOutlined, StarOutlined,DoubleLeftOutlined } from '@ant-design/icons';
 // CSS
 import '../../../styles/Main/ReportManagement/ReportManagement.css';
 // components
 import NoteItem from './NoteItem';
 // services
-import {getNotesListService} from "../../../services/noteService";
+import {getNotesListService,updateNoteService} from "../../../services/noteService";
 // const
 import { IMAGE_ROOT } from '../../../constants';
+import WriteBoard from '../WriteManagement/WriteBoard';
 const { Paragraph } = Typography;
 const IconText = ({ icon, text }) => (
     <Space>
@@ -25,7 +26,10 @@ class MyNotesPage extends Component {
         notes:[],
         note:[],
         showNoteDetailPage:false,
+        showEditNotePage:false,
         allTags:[],
+        content:"",
+        title:"",
     }
     componentDidMount(){
         getNotesListService(this.props.userInfo.id).then((res) => {
@@ -66,12 +70,75 @@ class MyNotesPage extends Component {
         this.setState({showNoteDetailPage:false,note:[]});
     }
 
+    closeEditing=()=>{
+        this.setState({showNoteDetailPage:true,showEditNotePage:false});
+    }
+
     getNoteDetail=()=>{
         if(this.state.showNoteDetailPage) {
             return (
-                <NoteItem note = {this.state.note} closeDetail={this.closeDetail} deleteNote={this.deleteNote}  visitor={this.props.visitor}></NoteItem>
+                <NoteItem 
+                    note = {this.state.note} 
+                    closeDetail={this.closeDetail} 
+                    deleteNote={this.deleteNote}  
+                    editNote={this.onEditing}
+                    visitor={this.props.visitor}
+                />
             );
         }
+    }
+
+    onEditing=()=>{
+        this.setState({
+            content:this.state.note.content,
+            title:this.state.note.title,
+            showEditNotePage:true,
+            showNoteDetailPage:false
+        })
+    }
+
+    getEditNotePage=()=>{
+        if(this.state.showEditNotePage){
+            return(
+                <div>
+                    <a onClick={()=>this.closeEditing()}><DoubleLeftOutlined />返回</a>
+                    <Button type ="primary" onClick={()=>this.updateNote()}>更新</Button>
+                    <WriteBoard 
+                        setContent={this.setContent.bind(this)}
+                        setTheme={this.setTitle.bind(this)}
+                        content={this.state.content}
+                        theme={this.state.title}
+                        insertPhotoUrl = {this.insertPhotoUrl}
+                        saveDraft = {this.saveDraft}
+                        hideSomeFunctions={true}
+                    />
+                </div>
+            );
+        }
+    }
+
+    setContent = (content) => {
+        this.setState({ content: content });
+    };
+
+    setTitle = (title) => {
+        this.setState({ title: title });
+    };
+
+    insertPhotoUrl = (url) => {
+        let content = this.state.content;
+        content =
+        '<img src="' +
+        IMAGE_ROOT +
+        url +
+        '" alt="image uploaded' +
+        '" width="50%"/> \n' +
+        content;
+        console.log("Image Path="+IMAGE_ROOT+ url )
+        this.setState({ content: content });
+    };
+
+    saveDraft = (content) => {
     }
 
     filterNoteByTag=(tag)=>{
@@ -84,10 +151,32 @@ class MyNotesPage extends Component {
         })
     }
 
+    updateNote=()=>{
+        let note = this.state.note;
+        note.title = this.state.title;
+        note.content = this.state.content;
+        updateNoteService(note).then((res) => {
+            console.log(res)
+            if(res.code === 0){
+                this.setState({note:note});
+                this.closeEditing();
+                message.success("更新成功")
+            }else{
+                message.error(res.msg);
+            }
+        }).catch((err) => {
+            if (err === 302) {
+                this.props.onSessionExpired();
+            } else {
+                message.error("Failed to get notes");
+            }
+        });
+    }
+
     render() {
         return (
            <div style={{backgroundColor:"white"}}>
-               <div style={this.state.showNoteDetailPage?{display:'none'}:{}}>
+               <div style={this.state.showNoteDetailPage||this.state.showEditNotePage?{display:'none'}:{}}>
                    <div style={{paddingTop:5,paddingLeft:5}}>
                        <List
                        grid={{
@@ -153,6 +242,8 @@ class MyNotesPage extends Component {
                 </div>
 
                 {this.getNoteDetail()}
+
+                {this.getEditNotePage()}
            </div>
         );
     }

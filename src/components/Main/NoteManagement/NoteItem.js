@@ -42,14 +42,6 @@ class NoteItem extends Component {
         this.setState({isLiked:!this.state.isLiked});
     }
 
-    onEditing=()=>{
-        if(this.state.isEditing){
-            return (
-                <WriteBoard/>
-            );
-        }
-    }
-
     getOperationList=()=>{
         if(this.props.visitor){
            return(
@@ -64,7 +56,7 @@ class NoteItem extends Component {
             return (
                 <Row>
                    <Col>
-                        <Button type="primary"><EditOutlined />编辑</Button>
+                        <Button type="primary" onClick={()=>this.props.editNote()}><EditOutlined />编辑</Button>
                         <Popconfirm
                             title="你确定删除这篇笔记吗?"
                             onConfirm={()=>this.deleteNote()}

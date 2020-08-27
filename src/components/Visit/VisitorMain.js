@@ -1,14 +1,15 @@
 import React from "react";
 import Tour from "reactour";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
+import { Switch, Route, Redirect, BrowserRouter } from 'react-router-dom';
 import "antd/dist/antd.css";
 import "../../styles/Visit/VisitorMain.css";
-import {Layout, Menu, Avatar, Tooltip, Col, Badge, Popover, Upload, Button, Breadcrumb, message} from "antd";
+import {Layout, Result, Avatar, Tooltip, Col, Badge, Popover, Upload, Button, Breadcrumb, message} from "antd";
 //components
 import UserInfoPage from "../Main/UserManagement/UserInfoPage";
 // services
 import {getUserInfoForVisitService} from "../../services/userService";
-import { VISITOR_USERID } from "../../constants";
+import { VISITOR_USERID, ROOT } from "../../constants";
 import MyNotesPage from "../Main/NoteManagement/MyNotesPage";
 const { Sider, Content, Header,Footer } = Layout;
 
@@ -50,24 +51,36 @@ class VisitorMain extends React.Component {
     }
   }
   render() {
-    return (
-      <Layout className="layout">
-        <Header className="header">
-          <span>
-            {this.state.userInfo.username}的Recording
-          </span>
-         
-        </Header>
-        <Layout>
-        <Sider className="silder">
-          <UserInfoPage userInfo={this.state.userInfo} visitor={true}/>
-        </Sider>
-        <Content className="content">
-          {this.getNotes()}
-        </Content>
+    if(this.state.visible){
+      return (
+        <Layout className="layout">
+          <Header className="header">
+            <span>
+              {this.state.userInfo.username}的Recording
+            </span>
+           
+          </Header>
+          <Layout>
+          <Sider className="silder">
+            <UserInfoPage userInfo={this.state.userInfo} visitor={true}/>
+          </Sider>
+          <Content className="content">
+            {this.getNotes()}
+          </Content>
+          </Layout>
         </Layout>
-      </Layout>
-  );
+      );
+    }else{
+      return (
+        <Result
+          status="403"
+          title="403"
+          subTitle="抱歉！用户没有开放主页。"
+          extra={<Button type="primary" onClick={()=>window.open(ROOT+"/signin",'_self')}>回到首页</Button>}
+        />
+      );
+    }
+
   }
 }
 

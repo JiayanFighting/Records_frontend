@@ -427,7 +427,7 @@ class NewMain extends React.Component {
           </Menu>
         </Header>
         <Layout>
-          <Sider style={{marginTop:8}}>
+          <Sider style={{marginTop:8,backgroundColor:"white"}}>
             <UserInfoPage userInfo={this.props.userInfo} handleUpdateAvatar={this.props.handleUpdateAvatar}  visitor={false}/>
           </Sider>
           <Content style={{margin:8}}>

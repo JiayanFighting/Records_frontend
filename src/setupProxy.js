@@ -294,7 +294,13 @@ module.exports = function(app) {
     app.use(createProxyMiddleware('/photo/upload/avatar', {
         target: API_ROOT,
         secure: false,
-        changeOrigin: false,                         //是否需要改变原始主机头为目标URL默认false，
+        changeOrigin: false,
+    }));
+
+    app.use(createProxyMiddleware('/photo/upload/cover', {
+        target: API_ROOT,
+        secure: false,
+        changeOrigin: false,
     }));
 
     // app.use(createProxyMiddleware('', {

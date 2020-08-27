@@ -11,7 +11,7 @@ import ViewBoard from '../WriteManagement/ViewBoard'
 import Modal from "../../Main/HelperComponents/Modal";
 // services
 import {submitNoteService} from "../../../services/noteService";
-import {savePhoto} from '../../../services/photoService';
+import {saveCover} from '../../../services/photoService';
 // CSS
 import '../../../styles/Main/TeamManagement/TeamManagement.css';
 
@@ -123,7 +123,7 @@ class WritePage extends Component {
         const data = new FormData();
         data.append('photo',file);
         data.append('userId',this.props.userInfo.userId);
-        savePhoto(data).then((res) => {
+        saveCover(data).then((res) => {
             console.log(res);
             console.log(IMAGE_ROOT+res.url);
             this.setState({coverUrl:IMAGE_ROOT+res.url});

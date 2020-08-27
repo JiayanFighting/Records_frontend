@@ -33,3 +33,7 @@ export function getPhoto(photoUrl){
 export function saveAvatar(data){
     return postFormData('/photo/upload/avatar',data)
 }
+
+export function saveCover(data){
+    return postFormData('/photo/upload/cover',data)
+}

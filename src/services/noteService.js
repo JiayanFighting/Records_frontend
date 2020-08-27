@@ -18,5 +18,6 @@ export function updateNoteService(note){
 }
 
 export function deleteNoteService(id){
-    return postRequest('/note/delete',id)
+    let body = {'id':id};
+    return postRequest('/note/delete',body)
 }

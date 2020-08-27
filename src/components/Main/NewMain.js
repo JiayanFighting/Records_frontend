@@ -37,7 +37,7 @@ const { Sider, Content, Header,Footer } = Layout;
 class NewMain extends React.Component {
   state = {
     collapsed: false,
-    currentTab: "Write Note",
+    currentTab: "Notes",
     integratedContent: "",
     show: false,
       curReport:[],
@@ -330,7 +330,7 @@ class NewMain extends React.Component {
     let userinfo = JSON.parse(localStorage.getItem(TOKEN_KEY));
     this.props.handleLogin(userinfo);
     this.changeTab("Reports");
-    this.changeTab("Write Note");
+    this.changeTab("Notes");
   };
 
   onPageChange = (e) => {
@@ -417,9 +417,9 @@ class NewMain extends React.Component {
                 <LogoutOutlined /> Logout
               </a>
           </span>
-          <Menu mode="horizontal" defaultSelectedKeys={['Write Note']} onClick={this.onClick} style={{paddingLeft:300}}>
-            <Menu.Item key="Write Note">记笔记</Menu.Item>
+          <Menu mode="horizontal" defaultSelectedKeys={['Notes']} onClick={this.onClick} style={{paddingLeft:300}}>
             <Menu.Item key="Notes">我的笔记</Menu.Item>
+            <Menu.Item key="Write Note">记笔记</Menu.Item>
             <Menu.Item key="Templates">模板库</Menu.Item>
             <Menu.Item key="Square">广场</Menu.Item>
             <Menu.Item key="Category">分类</Menu.Item>
@@ -427,10 +427,10 @@ class NewMain extends React.Component {
           </Menu>
         </Header>
         <Layout>
-          <Sider>
+          <Sider style={{marginTop:8}}>
             <UserInfoPage userInfo={this.props.userInfo} handleUpdateAvatar={this.props.handleUpdateAvatar}/>
           </Sider>
-          <Content>
+          <Content style={{margin:8}}>
             {/* <Breadcrumb style={{ margin: '16px 0' }}>
               <Breadcrumb.Item>Home</Breadcrumb.Item>
               <Breadcrumb.Item>List</Breadcrumb.Item>

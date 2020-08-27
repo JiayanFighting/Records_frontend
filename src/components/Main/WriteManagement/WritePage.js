@@ -43,14 +43,14 @@ class WritePage extends Component {
         this.setState({ content: content });
     };
 
-    onShowReportsInThePastClicked = () => {
-        var params = {
-          fromEmail: this.props.userInfo.email, // opt , if no userEmail ,required
-          offset: 0, // opt ,default 0
-          limit: 10, //  opt ,default 10
-        };
-        // this.getReportDataWithKeys(params);
-    };
+    // onShowReportsInThePastClicked = () => {
+    //     var params = {
+    //       fromEmail: this.props.userInfo.email, // opt , if no userEmail ,required
+    //       offset: 0, // opt ,default 0
+    //       limit: 10, //  opt ,default 10
+    //     };
+    //     // this.getReportDataWithKeys(params);
+    // };
 
     saveDraft = (content) => {
     }
@@ -95,7 +95,7 @@ class WritePage extends Component {
     render() {
         return (
             <div style={{backgroundColor:"white"}}>
-                <Row justify="end">
+                <Row justify="end" style={{paddingTop:5}}>
                     <Col span={4}>
                     <Button type="primary" onClick={()=>this.showModal("showSubmitModal")}>提交</Button>
                     </Col>
@@ -108,7 +108,7 @@ class WritePage extends Component {
                     setTheme={this.setTheme.bind(this)}
                     content={this.state.content}
                     theme={this.state.title}
-                    onShowReportsInThePastClicked = {this.onShowReportsInThePastClicked}
+                    // onShowReportsInThePastClicked = {this.onShowReportsInThePastClicked}
                     insertPhotoUrl = {this.insertPhotoUrl}
                     saveDraft = {this.saveDraft}
                     hideSomeFunctions={false}
@@ -155,12 +155,11 @@ class WritePage extends Component {
                         </Form.Item>
                         <Spin tip="Loading..." spinning={this.state.isLoading}>
                             <Row>
-                                <ViewBoard content={"# "+this.state.title+"\n"+this.state.content} theme={this.state.title} height={"40vh"}/>
+                                <ViewBoard content={this.state.content} title={this.state.title} height={"40vh"}/>
                             </Row>
                         </Spin>
                         <Form.Item wrapperCol={{offset:18,span:6}}>
-                            <Button onClick={()=>this.exitModal("showSubmitModal")} style={{marginRight:20}}>
-                            取消</Button>
+                            <Button onClick={()=>this.exitModal("showSubmitModal")} style={{marginRight:20}}>取消</Button>
                             <Button type="primary" htmlType="submit" >提交</Button>
                         </Form.Item>
                         </Form>

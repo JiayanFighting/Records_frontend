@@ -115,7 +115,7 @@ export default class WriteBoard extends React.Component {
       showHelperDrawer:false,
       functionIconSize:15,
       functionFontSize:12,
-      displayDesc:'none',
+      displayDesc:'',//'none',
       codeTheme: "solarized",
       viewBoardStyle: {
         "background-color": "#fff",
@@ -272,26 +272,16 @@ export default class WriteBoard extends React.Component {
         
         {/* <Row style={{backgroundColor:"#D9D9D9"}}> */}
         <Row style={{backgroundColor:"white"}}>
-          <Col>
+          {/* <Col>
           <div className={'normal'}>
             <Switch 
             checkedChildren="Detail"
             unCheckedChildren="Detail"
             onChange={()=>{this.state.displayDesc==='none'?this.setState({displayDesc:''}):this.setState({displayDesc:'none'})}} />
             </div>
-          </Col>
+          </Col> */}
 
-          <Col>
-            <div className={this.props.hideSomeFunctions?"hide":(this.state.isHover === 10 ? 'change' : 'normal')}
-              onMouseOver={()=>this.setState({isHover:10})} 
-              onMouseOut={()=>this.setState({isHover:-1})}
-              onClick={this.fullScreen}
-              >
-              <FullscreenOutlined style={{fontSize:this.state.functionIconSize}}/><br/>
-              <span style={{fontSize:this.state.functionFontSize,display:this.state.displayDesc}}>Full Screen</span>
-            </div>
-          </Col>
-          <Divider  type="vertical" ></Divider>   
+          
           
           <Col>
             <div className={'normal'}>
@@ -422,6 +412,7 @@ export default class WriteBoard extends React.Component {
             </div>
           </Col>
           {/* <Divider type="vertical" /> */}
+          <Divider  type="vertical"></Divider>   
           <Col>
             <Dropdown overlay={menu} >
               <div className={this.state.isHover === 12 ? 'change' : 'normal'}
@@ -464,7 +455,7 @@ export default class WriteBoard extends React.Component {
               </div>
             </Tooltip>
           </Col>
-          <Col>
+          {/* <Col>
             <div className={this.props.hideSomeFunctions?"hide":(this.state.isHover === 15 ? 'change' : 'normal')}
               onMouseOver={()=>this.setState({isHover:15})} 
               onMouseOut={()=>this.setState({isHover:-1})}
@@ -472,7 +463,7 @@ export default class WriteBoard extends React.Component {
               <ContainerOutlined style={{fontSize:this.state.functionIconSize}}/><br/>
               <span style={{fontSize:this.state.functionFontSize,display:this.state.displayDesc}}>History</span>
             </div>
-          </Col>
+          </Col> */}
           <Col>
             <div className={this.state.isHover === 16 ? 'change' : 'normal'}
               onMouseOver={()=>this.setState({isHover:16})} 
@@ -482,6 +473,17 @@ export default class WriteBoard extends React.Component {
               <span style={{fontSize:this.state.functionFontSize,display:this.state.displayDesc}}>Help</span>
             </div>
           </Col>
+          <Col>
+            <div className={this.props.hideSomeFunctions?"hide":(this.state.isHover === 10 ? 'change' : 'normal')}
+              onMouseOver={()=>this.setState({isHover:10})} 
+              onMouseOut={()=>this.setState({isHover:-1})}
+              onClick={this.fullScreen}
+              >
+              <FullscreenOutlined style={{fontSize:this.state.functionIconSize}}/><br/>
+              <span style={{fontSize:this.state.functionFontSize,display:this.state.displayDesc}}>Full Screen</span>
+            </div>
+          </Col>
+          
           <Col>
             <div className={'normal'}>
               <Switch
@@ -629,7 +631,7 @@ export default class WriteBoard extends React.Component {
           }}
           key="main"
         >
-          <Tooltip title="Markdown Writer">
+          {/* <Tooltip title="Markdown Writer"> */}
             <div
               className="common-container editor-container"
               onMouseOver={this.setCurrentIndex.bind(this, 1)}
@@ -659,8 +661,8 @@ export default class WriteBoard extends React.Component {
                 />
               )}
             </div>
-          </Tooltip>
-          <Tooltip title="Preview">
+          {/* </Tooltip> */}
+          {/* <Tooltip title="Preview"> */}
             <div
               className="common-container preview-container"
               ref={(node) => (this.previewContainer = node)}
@@ -682,7 +684,7 @@ export default class WriteBoard extends React.Component {
                 }}
               ></div>
             </div>
-          </Tooltip>
+          {/* </Tooltip> */}
         </div>
       </div>,
     ];

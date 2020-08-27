@@ -6,8 +6,7 @@ const { Meta } = Card;
 
 const { RangePicker } = DatePicker;
 const aboutme = 
-`## 个人简介
-
+`
 ### 基本信息
 
 姓名：黄家晏
@@ -134,7 +133,7 @@ class AboutmePage extends React.Component {
         return (
             <div style={{backgroundColor:"white"}}>
                 <div  style={{paddingLeft:20}}>
-                <ViewBoard content = {aboutme} theme={"个人简历"} height={"90vh"} width={"90vw"}/>
+                <ViewBoard content = {aboutme} title={"个人简历"} height={"90vh"} width={"90vw"}/>
                 </div>
             </div>
         );

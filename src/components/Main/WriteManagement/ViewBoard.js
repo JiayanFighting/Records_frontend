@@ -5,6 +5,7 @@ import marked from "marked";
 import highlight from "highlight.js";
 import "../../../static/style/common.css";
 import "../../../static/style/js-highlight.css";
+import "../../../styles/Main/WriteManagement/ViewBoard.css"
 
 const renderer = new marked.Renderer();
 renderer.link = function(href, title, text) {
@@ -44,33 +45,33 @@ class ViewBoard extends Component {
   render() {
     return (
       <div
-              className="common-container preview-container"
-              style={{
-                overflow: "scroll",
-                height: this.state.height,
-                // width:"40vw"
-              }}>
-      <div
-      className="markdown-body preview-wrapper"
-        // style={{
-        //   "text-align": "left",
-        //   background: "white",
-        //   overflow: "scroll",
-        //   "font-size": "12px",
-        //   height: this.state.height,
-        //   "margin-top": 10,
-        //   width: "100%",
-        // }}
+        className="common-container preview-container"
         style={{
-          "text-align": "left",
-          "margin-top": 5,
-          "font-size": 14,
           overflow: "scroll",
-        }}
-        dangerouslySetInnerHTML={{
-          __html: marked(this.props.content, {}),
-        }}
-      />
+          // height: this.state.height,
+          // width:"40vw"
+        }}>
+        <div
+        className="markdown-body preview-wrapper"
+          // style={{
+          //   "text-align": "left",
+          //   background: "white",
+          //   overflow: "scroll",
+          //   "font-size": "12px",
+          //   height: this.state.height,
+          //   "margin-top": 10,
+          //   width: "100%",
+          // }}
+          style={{
+            "text-align": "left",
+            "margin-top": 5,
+            "font-size": 14,
+            overflow: "scroll",
+          }}
+          dangerouslySetInnerHTML={{
+            __html: marked("# "+this.props.title+"\n"+this.props.content, {}),
+          }}
+        />
       </div>
     );
   }

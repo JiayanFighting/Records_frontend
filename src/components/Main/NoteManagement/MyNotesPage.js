@@ -51,9 +51,15 @@ class MyNotesPage extends Component {
     getNoteDetail=()=>{
         if(this.state.showNoteDetailPage) {
             return (
-                <NoteItem note = {this.state.note} closeDetail={this.closeDetail}></NoteItem>
+                <NoteItem note = {this.state.note} closeDetail={this.closeDetail} deleteNote={this.deleteNote}></NoteItem>
             );
         }
+    }
+
+    deleteNote=()=>{
+        this.setState({
+            notes:this.state.notes.filter(item => item.id !== this.state.note.id)
+        })
     }
 
     render() {

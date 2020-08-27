@@ -409,8 +409,8 @@ class NewMain extends React.Component {
             <a href="https://microsoft.sharepoint.com/">
             <img className="icon" src={require('../../styles/Main/favicon.png')} alt="Microsoft logo"/>
             </a>
-            <span>&nbsp;Jiayan</span>
-            <span className={"header-space"}>Recording</span>
+            <span>&nbsp;Recording</span>
+            {/* <span className={"header-space"}>Jiayan</span> */}
           </span>
           <span className="logout">
               <a onClick={this.props.handleLogout}>

@@ -8,6 +8,7 @@ import '../../../styles/Main/ReportManagement/ReportManagement.css';
 import NoteItem from './NoteItem';
 // services
 import {getNotesListService,updateNoteService} from "../../../services/noteService";
+
 // const
 import { IMAGE_ROOT } from '../../../constants';
 import WriteBoard from '../WriteManagement/WriteBoard';

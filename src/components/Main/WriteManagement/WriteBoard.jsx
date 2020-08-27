@@ -1,21 +1,15 @@
 import React, {useState} from "react";
 import marked from "marked";
 import highlight from "highlight.js";
-import {Button, Tooltip, Row, Col, Popover, Switch, Select, Card,message, Drawer,Menu, Dropdown,Divider} from "antd";
+import { Row, Col, Popover, Switch, Select,message, Drawer,Menu, Dropdown,Divider} from "antd";
 import {
-  InfoCircleOutlined,
   FullscreenOutlined,
-  FullscreenExitOutlined,
-  QuestionOutlined,
-  VerticalAlignBottomOutlined,
   CopyOutlined,
-  MailOutlined,
   SmileOutlined,
   PictureOutlined,
   SaveOutlined,
   DownloadOutlined,
   QuestionCircleOutlined,
-  ContainerOutlined,
   TableOutlined,
   BoldOutlined,
   ItalicOutlined,
@@ -26,12 +20,11 @@ import {
   MinusOutlined,
 } from "@ant-design/icons";
 import CodemirrorEditor, { CodemirrorHandler } from "../CodemirrorEditor";
-import ReactToPrint from "react-to-print";
-import FileSaver from "file-saver";
-import PrintPage from "../ReportManagement/PrintPage";
 import * as clipboard from "clipboard-polyfill";
 import Picker, {SKIN_TONE_MEDIUM_DARK} from 'emoji-picker-react';
 import PhotoDragger from "../WriteReport/PhotoDragger";
+import {downloadMD} from "../../../services/downloadService";
+import PDFDownload from '../HelperComponents/PDFDownload';
 //reference: https://www.npmjs.com/package/codemirror
 //快捷键支持
 // 搜索(search) Ctrl-F (PC), Cmd-F (Mac)
@@ -222,35 +215,10 @@ export default class WriteBoard extends React.Component {
     const menu = (
         <Menu>
           <Menu.Item>
-            <a onClick={this.download}>
-              Markdown
-            </a>
+            <a onClick={()=>downloadMD(this.props.theme,this.props.content)}>Markdown</a>
           </Menu.Item>
           <Menu.Item>
-            <ReactToPrint
-                trigger={() => <a>PDF</a>}
-                content={() => this.componentRef}
-            />
-            <div style={{ display: "none" }}>
-              <div
-                  style={{ textAlign: "center" }}
-                  ref={(el) => (this.componentRef = el)}
-              >
-                <Card title={this.props.theme}>
-                  <div
-                      className="preview"
-                      style={{ "text-align": "left" }}
-                      dangerouslySetInnerHTML={{
-                        __html: marked(this.props.content, {
-                          renderer: renderer,
-                          breaks: true,
-                          gfm: true,
-                        }),
-                      }}
-                  />
-                </Card>
-              </div>
-            </div>
+            <PDFDownload title={this.props.theme} content={this.props.content}/>
           </Menu.Item>
         </Menu>
     );
@@ -606,7 +574,7 @@ export default class WriteBoard extends React.Component {
             }}
             type="text"
             className="title-input"
-            placeholder="Enter a title"
+            placeholder="输入标题"
             value={this.props.theme ? this.props.theme : ""}
             spellCheck="true"
             onChange={(e) => {
@@ -854,15 +822,16 @@ export default class WriteBoard extends React.Component {
     }
   }
 
-  download = () => {
-    let content = this.props.content;
-    let blob = new Blob([content], { type: "text/plain;charset=utf-8" });
-    let title =
-      (!this.props.theme || this.props.theme.length === 0)
-        ? "Report"
-        : this.props.theme;
-    FileSaver.saveAs(blob, title + ".md");
-  };
+  // download = () => {
+  //   // downloadMD(this.props.title,this.props.content);
+  //   let content = this.props.content;
+  //   let blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+  //   let title =
+  //     (!this.props.theme || this.props.theme.length === 0)
+  //       ? "Report"
+  //       : this.props.theme;
+  //   FileSaver.saveAs(blob, title + ".md");
+  // };
 
   showDrawer = () => {
     this.setState({

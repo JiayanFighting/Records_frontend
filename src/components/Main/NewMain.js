@@ -3,7 +3,7 @@ import Tour from "reactour";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import "antd/dist/antd.css";
 import "../../styles/Main/NewMain.css";
-import {Layout, Menu, Avatar, Tooltip, Col, Badge, Popover, Upload, Button, Breadcrumb} from "antd";
+import {Layout, Menu,Anchor, Tooltip, Col, Badge, Popover, Upload, Button, Breadcrumb} from "antd";
 import { LogoutOutlined } from "@ant-design/icons";
 import UserInfoPage from "../Main/UserManagement/UserInfoPage";
 import TeamManagement from "./TeamManagement/TeamManagement";
@@ -428,7 +428,9 @@ class NewMain extends React.Component {
         </Header>
         <Layout>
           <Sider style={{marginTop:8,backgroundColor:"white"}}>
-            <UserInfoPage userInfo={this.props.userInfo} handleUpdateAvatar={this.props.handleUpdateAvatar}  visitor={false}/>
+            <Anchor>
+              <UserInfoPage userInfo={this.props.userInfo} handleUpdateAvatar={this.props.handleUpdateAvatar}  visitor={false}/>
+            </Anchor>
           </Sider>
           <Content style={{margin:8}}>
             {/* <Breadcrumb style={{ margin: '16px 0' }}>

@@ -21,3 +21,10 @@ export function deleteNoteService(id){
     let body = {'id':id};
     return postRequest('/note/delete',body)
 }
+
+export function getTagListService(userId){
+    var url = new URL(API_ROOT+'/note/tags')
+    let content = {"userId":userId}
+    url.search = new URLSearchParams(content).toString();
+    return getRequest(`/note/tags${url.search}`);
+}

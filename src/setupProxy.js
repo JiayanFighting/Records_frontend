@@ -46,6 +46,11 @@ module.exports = function(app) {
         secure: false,
         changeOrigin: false,
     }));
+    app.use(createProxyMiddleware('/note/tags', {
+        target: API_ROOT,
+        secure: false,
+        changeOrigin: false,
+    }));
     app.use(createProxyMiddleware('/note/one', {
         target: API_ROOT,
         secure: false,

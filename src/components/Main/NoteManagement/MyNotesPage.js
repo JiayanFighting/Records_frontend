@@ -21,13 +21,14 @@ class MyNotesPage extends Component {
         notes:[],
         note:[],
         showNoteDetailPage:false,
+        allTags:[],
     }
     componentDidMount(){
         getNotesListService(this.props.userInfo.userId).then((res) => {
             console.log(res)
             if(res.code === 0){
-                
                 this.setState({notes:res.list});
+                this.getAllTags();
             }else{
                 console.log(res)
             }
@@ -38,6 +39,19 @@ class MyNotesPage extends Component {
                 message.error("Failed to get notes");
             }
         });
+        
+    }
+
+    getAllTags=()=>{
+        let tagset = new Set()
+        this.state.notes.forEach((item)=>{
+            let itags = item.tags;
+            itags.split(";").map((tag)=>{
+                console.log(tag);
+                tagset.add(tag);
+            });
+        });
+        this.setState({allTags:tagset});
     }
 
     showDetail=(item)=>{
@@ -56,6 +70,10 @@ class MyNotesPage extends Component {
         }
     }
 
+    filterNoteByTag=(tag)=>{
+
+    }
+
     deleteNote=()=>{
         this.setState({
             notes:this.state.notes.filter(item => item.id !== this.state.note.id)
@@ -66,6 +84,26 @@ class MyNotesPage extends Component {
         return (
            <div style={{backgroundColor:"white"}}>
                <div style={this.state.showNoteDetailPage?{display:'none'}:{}}>
+                   <div style={{paddingTop:5,paddingLeft:5}}>
+                       <List
+                       grid={{
+                        gutter: 2,
+                        xs: 10,
+                        sm: 15,
+                        md: 15,
+                        lg: 15,
+                        xl: 15,
+                        xxl: 20,
+                      }}
+                        // pagination={{pageSize: 20}}
+                        dataSource={this.state.allTags}
+                        renderItem={(item,index) => (
+                        <List.Item>
+                            <Tag color={tagColors[index%tagColors.length]}>{item}</Tag>
+                        </List.Item>
+                        )}
+                    />
+                   </div>
                     <List
                         style={{textAlign:"left",paddingLeft:30}}
                         itemLayout="vertical"
@@ -82,7 +120,7 @@ class MyNotesPage extends Component {
                             ]}
                             extra={
                             <img
-                                width={272}
+                                height={200}
                                 alt="logo"
                                 src={item.cover}
                             />

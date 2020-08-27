@@ -78,6 +78,28 @@ class Login extends Component {
     });
   };
 
+  visitorLogin = () => {
+    let values={
+      'email':'',
+      'password':'',
+    }
+    this.setState({ isAuth: false, show: true });
+    loginService(values).then((res) => {
+      if(res.code === 0) {
+        res = JSON.stringify(res);
+        localStorage.setItem(TOKEN_KEY, res);
+        this.onLogin();
+      }else{
+        message.error(res.msg)
+      }
+    }).catch((err) => {
+        if (err === 302) {
+            this.props.onSessionExpired();
+        } else {
+            message.error("Failed to login!");
+        }
+    });
+  };
 
 
   render() {
@@ -114,6 +136,9 @@ class Login extends Component {
             <Button type="primary" htmlType="submit">
               Submit
             </Button>
+
+            <a onClick={()=>this.visitorLogin()}>游客身份登入</a>
+              
           </Form.Item>
         </Form>
       

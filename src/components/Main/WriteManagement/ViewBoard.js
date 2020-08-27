@@ -48,7 +48,7 @@ class ViewBoard extends Component {
         className="common-container preview-container"
         style={{
           overflow: "scroll",
-          // height: this.state.height,
+          height: this.state.height,
           // width:"40vw"
         }}>
         <div

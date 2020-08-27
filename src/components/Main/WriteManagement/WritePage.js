@@ -1,16 +1,20 @@
 import React, {Component} from 'react';
-import '../../../styles/Main/TeamManagement/TeamManagement.css';
-import {Card, Col, Row, Button, Input, Spin,Typography,message,Form} from "antd";
+import {Col, Row, Button, Input, Spin,message,Form, Upload} from "antd";
 import 'antd/dist/antd.css';
-import {DeleteOutlined} from '@ant-design/icons';
-import { ROOT, IMAGE_ROOT } from '../../../constants';
+import {PlusOutlined } from '@ant-design/icons';
+import {IMAGE_ROOT } from '../../../constants';
+// self components
+import EditableTagGroup from './EditableTagGroup';
+import ImgCrop from 'antd-img-crop';
 import WriteBoard from '../WriteManagement/WriteBoard';
 import ViewBoard from '../WriteManagement/ViewBoard'
 import Modal from "../../Main/HelperComponents/Modal";
+// services
 import {submitNoteService} from "../../../services/noteService";
-const { Meta } = Card;
-const { Search } = Input;
-const { Paragraph } = Typography;
+import {savePhoto} from '../../../services/photoService';
+// CSS
+import '../../../styles/Main/TeamManagement/TeamManagement.css';
+
 class WritePage extends Component {
     state={
         content:"",
@@ -19,6 +23,8 @@ class WritePage extends Component {
         templateTitle:"",
         showSubmitModal:false,
         isLoading:false,
+        tags:[],
+        coverUrl:"",
 
     }
 
@@ -43,15 +49,6 @@ class WritePage extends Component {
         this.setState({ content: content });
     };
 
-    // onShowReportsInThePastClicked = () => {
-    //     var params = {
-    //       fromEmail: this.props.userInfo.email, // opt , if no userEmail ,required
-    //       offset: 0, // opt ,default 0
-    //       limit: 10, //  opt ,default 10
-    //     };
-    //     // this.getReportDataWithKeys(params);
-    // };
-
     saveDraft = (content) => {
     }
 
@@ -69,14 +66,23 @@ class WritePage extends Component {
 
     submitNote=(values)=>{
         this.setState({isLoading:true});
+        let tagString = "";
+        this.state.tags.forEach((item,index)=>{
+            if(index === 0){
+                tagString = item;
+            }else{
+                tagString = tagString+";"+item;
+            }
+        });
+        console.log(tagString);
         let params ={
             userId:this.props.userInfo.userId,
             directory:0,
             type:values.type,
-            tags:values.tags,
+            tags:tagString,
             title:this.state.title,
             content:this.state.content,
-            cover:values.cover,
+            cover:this.state.coverUrl,
             thumbUp:14,
             star:34,
         }
@@ -89,6 +95,40 @@ class WritePage extends Component {
             } else {
                 message.error("Failed to submit!");
             }
+        });
+    }
+
+    handleAddTag =(inputValue)=>{
+        let { tags } = this.state;
+        if (inputValue && tags.indexOf(inputValue) === -1) {
+            tags = [...tags, inputValue];
+        }
+        console.log(tags);
+        this.setState({tags,});
+    }
+
+    handleDeleteTag=(removedTag) => {
+        const tags = this.state.tags.filter(tag => tag !== removedTag);
+        console.log(tags);
+        this.setState({ tags });
+    };
+
+    saveAPhoto= (file) => {
+        // const data = new FormData();
+        // data.append('photo',file);
+        // saveAvatar(data).then((res) => {
+        //   this.props.handleUpdateAvatar(res.url);
+        // }).catch((err) => console.log(err));
+
+        const data = new FormData();
+        data.append('photo',file);
+        data.append('userId',this.props.userInfo.userId);
+        savePhoto(data).then((res) => {
+            console.log(res);
+            console.log(IMAGE_ROOT+res.url);
+            this.setState({coverUrl:IMAGE_ROOT+res.url});
+        }).catch((err) => {
+            message.error(err);
         });
     }
 
@@ -139,19 +179,38 @@ class WritePage extends Component {
                         <Form.Item label="Type" name="type"
                             rules={[{ required: true, message: '请选择分类!' }]}
                         >
-                            <Input />
+                            <Input/>
                         </Form.Item>
 
                         <Form.Item label="标签" name="tags"
-                            rules={[{ required: true, message: '至少设置一个标签' }]}
+                            // rules={[{ required: true, message: '至少设置一个标签' }]}
                         >
-                            <Input />
+                            {/* <Input placeholder="用;分隔" /> */}
+                            <EditableTagGroup initTags= {this.state.tags} handleAddTag={this.handleAddTag} handleDeleteTag={this.handleDeleteTag}/>
+                            
                         </Form.Item>
 
                         <Form.Item label="封面图片路径" name="cover"
-                            rules={[{ required: true, message: '输入图片路径!' }]}
+                            // rules={[{ required: true, message: '输入图片路径!' }]}
                         >
-                            <Input />
+                            {/* <Input /> */}
+                            <ImgCrop rotate>
+                            <Upload
+                                listType="text"
+                                // fileList={fileList}
+                                onChange={(info)=>{
+                                const{status}  = info.file;
+                                if (status !== 'uploading') {
+                                    this.saveAPhoto(info.file.originFileObj);
+                                }
+                            }}
+                                onPreview={this.onPreview}
+                                name={this.props.userInfo.userEmail+".jpg"}
+                                showUploadList={false}
+                            >
+                                <a>Update cover </a>
+                            </Upload>
+                            </ImgCrop>
                         </Form.Item>
                         <Spin tip="Loading..." spinning={this.state.isLoading}>
                             <Row>

@@ -2,15 +2,17 @@ import React, {Component} from 'react';
 import 'antd/dist/antd.css';
 import '../../../styles/Main/ReportManagement/ReportManagement.css';
 import {Space, Row, Col, Button, Popconfirm, message} from "antd";
-import { DeleteOutlined,StarOutlined,LikeOutlined,StarFilled,LikeFilled,DoubleLeftOutlined} from '@ant-design/icons';
+import { DeleteOutlined,StarOutlined,LikeOutlined,StarFilled,LikeFilled,DoubleLeftOutlined,EditOutlined} from '@ant-design/icons';
 import ViewBoard from '../WriteManagement/ViewBoard';
 import {deleteNoteService} from "../../../services/noteService";
+import WriteBoard from '../WriteManagement/WriteBoard';
 
 class NoteItem extends Component {
     state={
         note:this.props.note,
         isStared:false,
         isLiked:false,
+        isEditing:false,
     }
     componentDidMount(){
         
@@ -40,6 +42,14 @@ class NoteItem extends Component {
         this.setState({isLiked:!this.state.isLiked});
     }
 
+    onEditing=()=>{
+        if(this.state.isEditing){
+            return (
+                <WriteBoard/>
+            );
+        }
+    }
+
     render() {
         return (
            <div style={{backgroundColor:"white",paddingLeft:30,textAlign:"left"}}>
@@ -52,6 +62,7 @@ class NoteItem extends Component {
                </Row>
                <Row>
                    <Col>
+                    <Button type="primary"><EditOutlined />编辑</Button>
                         <Popconfirm
                             title="你确定删除这篇笔记吗?"
                             onConfirm={()=>this.deleteNote()}

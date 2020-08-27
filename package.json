@@ -64,6 +64,7 @@
     "postcss-normalize": "8.0.1",
     "postcss-preset-env": "6.7.0",
     "postcss-safe-parser": "4.0.1",
+    "rc-tween-one": "^2.7.3",
     "react": "^16.13.1",
     "react-app-polyfill": "^1.0.6",
     "react-commonmark": "^3.0.0",

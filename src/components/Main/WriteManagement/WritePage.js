@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {Col, Row, Button, Input, Spin,message,Form, Upload} from "antd";
+import {Col, Row, Button, Input, Spin,message,Form, Upload, Tree} from "antd";
 import 'antd/dist/antd.css';
-import {PlusOutlined } from '@ant-design/icons';
+import {DeleteOutlined } from '@ant-design/icons';
 import {IMAGE_ROOT } from '../../../constants';
 // self components
 import EditableTagGroup from './EditableTagGroup';
@@ -12,9 +12,12 @@ import Modal from "../../Main/HelperComponents/Modal";
 // services
 import {submitNoteService} from "../../../services/noteService";
 import {saveCover} from '../../../services/photoService';
+import {getDirectoryListOnlyService} from "../../../services/noteService";
 // CSS
 import '../../../styles/Main/TeamManagement/TeamManagement.css';
-
+import NoteDirectory from '../NoteManagement/NoteDirectory';
+import NoteDirectoryOnly from '../NoteManagement/NoteDirectoryOnly';
+const { DirectoryTree } = Tree;
 class WritePage extends Component {
     state={
         content:"",
@@ -25,7 +28,8 @@ class WritePage extends Component {
         isLoading:false,
         tags:[],
         coverUrl:"",
-
+        directorys:[],
+        selectedDirectory:0,
     }
 
     setContent = (content) => {
@@ -63,6 +67,9 @@ class WritePage extends Component {
             message.error("请输入标题");
             return;
         }
+        if(modalName === "showSubmitModal"){
+            this.getDirectorys();
+        }
         this.setState({
             [modalName]: true,
         });
@@ -81,14 +88,14 @@ class WritePage extends Component {
         console.log(tagString);
         let params ={
             userId:this.props.userInfo.id,
-            directory:0,
+            directory:this.state.selectedDirectory,
             type:values.type,
             tags:tagString,
             title:this.state.title,
             content:this.state.content,
             cover:this.state.coverUrl,
-            thumbUp:14,
-            star:34,
+            // thumbUp:14,
+            // star:34,
         }
         submitNoteService(params).then((res) => {
             message.success("Successfully submitted!");
@@ -130,6 +137,25 @@ class WritePage extends Component {
         });
     }
 
+    getDirectorys=()=>{
+        getDirectoryListOnlyService().then((res) => {
+            this.setState({directorys:res.all.children});
+            // message.success("success");
+        }).catch((err) => {
+            if (err === 302) {
+                this.props.onSessionExpired();
+            } else {
+                message.error("获取目录失败");
+            }
+        });
+    }
+
+    onSelect = (keys, event) => {
+        console.log('Trigger Select', keys, event);
+        console.log(event.node.key);
+        this.setState({selectedDirectory:parseInt(event.node.key)});
+    };
+
     render() {
         return (
             <div style={{backgroundColor:"white"}}>
@@ -166,62 +192,78 @@ class WritePage extends Component {
                         okBtnType={"primary"}
                         title={"Submit Your Note"}
                     >
-                        <div style={{ textAlign: "left",width:"60vw"}}>
-                        <Form
-                        // {...layout}
-                        labelCol={{span:8}}
-                        wrapperCol={{span:8}}
-                        name="basic"
-                        onFinish={this.submitNote}
-                        >
-                        <Form.Item label="Type" name="type"
-                            rules={[{ required: true, message: '请选择分类!' }]}
-                        >
-                            <Input/>
-                        </Form.Item>
-
-                        <Form.Item label="标签" name="tags"
-                            // rules={[{ required: true, message: '至少设置一个标签' }]}
-                        >
-                            {/* <Input placeholder="用;分隔" /> */}
-                            <EditableTagGroup initTags= {this.state.tags} handleAddTag={this.handleAddTag} handleDeleteTag={this.handleDeleteTag}/>
-                            
-                        </Form.Item>
-
-                        <Form.Item label="封面图片" name="cover"
-                            // rules={[{ required: true, message: '输入图片路径!' }]}
-                        >
-                            {}
-                            <ImgCrop rotate>
-                            <Upload  
-                                // defaultFileList={fileList}
-                                listType="text"
-                                // fileList={fileList}
-                                onChange={(info)=>{
-                                    const{status}  = info.file;
-                                    if (status !== 'uploading') {
-                                        this.saveAPhoto(info.file.originFileObj);
-                                    }
-                            }}
-                                onPreview={this.onPreview}
-                                name={this.props.userInfo.email+".jpg"}
-                                showUploadList={false}
+                    <div style={{ textAlign: "left",width:"60vw"}}>
+                        <Row>
+                            <Col span={12}>
+                            {/* <Spin tip="Loading..." spinning={this.state.isLoading}> */}
+                                <ViewBoard content={this.state.content} title={this.state.title} height={"75vh"}/>
+                            {/* </Spin> */}
+                            </Col>
+                        
+                            <Col span={8}>
+                            <Form
+                                labelCol={{span:4}}
+                                wrapperCol={{span:12}}
+                                name="basic"
+                                onFinish={this.submitNote}
                             >
-                                {this.state.coverUrl.length === 0? <a>Update cover </a>:this.state.coverUrl }
-                            </Upload>
-                            </ImgCrop>
-                        </Form.Item>
-                        <Spin tip="Loading..." spinning={this.state.isLoading}>
-                            <Row>
-                                <ViewBoard content={this.state.content} title={this.state.title} height={"40vh"}/>
-                            </Row>
-                        </Spin>
-                        <Form.Item wrapperCol={{offset:18,span:6}}>
-                            <Button onClick={()=>this.exitModal("showSubmitModal")} style={{marginRight:20}}>取消</Button>
-                            <Button type="primary" htmlType="submit" >提交</Button>
-                        </Form.Item>
-                        </Form>
-                        </div>
+                            <Form.Item label="Type" name="type"
+                                rules={[{ required: true, message: '请选择分类!' }]}
+                            >
+                                <Input/>
+                            </Form.Item>
+
+                            <Form.Item label="标签" name="tags"
+                                // rules={[{ required: true, message: '至少设置一个标签' }]}
+                            >
+                                <EditableTagGroup initTags= {this.state.tags} handleAddTag={this.handleAddTag} handleDeleteTag={this.handleDeleteTag}/>
+                                
+                            </Form.Item>
+
+                            <Form.Item label="封面图片" name="cover">
+                                {}
+                                <ImgCrop rotate>
+                                    <Upload  
+                                        // defaultFileList={fileList}
+                                        listType="text"
+                                        // fileList={fileList}
+                                        onChange={(info)=>{
+                                            const{status}  = info.file;
+                                            if (status !== 'uploading') {
+                                                this.saveAPhoto(info.file.originFileObj);
+                                            }
+                                    }}
+                                        onPreview={this.onPreview}
+                                        name={this.props.userInfo.email+".jpg"}
+                                        showUploadList={false}
+                                    >
+                                        {this.state.coverUrl.length === 0? <a>Update cover </a>:
+                                        <span> 
+                                            <a style={{marginRight:10}}>{this.state.coverUrl} </a>
+                                            <a onClick={()=>this.setState({coverUrl:''})}><DeleteOutlined /></a>
+                                        </span>}
+                                    </Upload>
+                                </ImgCrop>
+                            </Form.Item>
+                            
+                            <div style={{height:"30vh",overflow: "scroll"}}>
+                                <DirectoryTree
+                                    onSelect={this.onSelect}
+                                    onExpand={this.onExpand}
+                                    treeData={this.state.directorys}
+                                    style={{textAlign:"left"}}
+                                />
+                            </div>
+                            <Form.Item wrapperCol={{offset:6,span:12}}>
+                                <Button onClick={()=>this.exitModal("showSubmitModal")} style={{marginRight:20}}>取消</Button>
+                                <Button type="primary" htmlType="submit" >提交</Button>
+                            </Form.Item>
+                            </Form>
+                            </Col>
+                            
+                        </Row>
+                    
+                    </div>
                     </Modal>
                 </div>
             </div>

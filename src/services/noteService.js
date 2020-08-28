@@ -39,3 +39,7 @@ export function getTagListService(userId){
 export function getDirectoryListService(){
     return getRequest(`/directory/all`);
 }
+
+export function getDirectoryListOnlyService(){
+    return getRequest(`/directory/allOnly`);
+}

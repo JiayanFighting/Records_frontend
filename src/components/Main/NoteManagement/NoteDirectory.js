@@ -13,6 +13,7 @@ class NoteDirectory extends Component {
     }
     componentDidMount(){
         getDirectoryListService().then((res) => {
+            console.log(res);
             this.setState({directoryData:res.all.children});
             // message.success("success");
         }).catch((err) => {
@@ -25,7 +26,7 @@ class NoteDirectory extends Component {
     }
 
     onSelect = (keys, event) => {
-        // console.log('Trigger Select', keys, event);
+        console.log('Trigger Select', keys, event);
         if(event.node.noteId > 0){
             console.log("选中博客");
             this.props.showDetail(event.node.noteId);

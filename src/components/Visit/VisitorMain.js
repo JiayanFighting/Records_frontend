@@ -16,6 +16,7 @@ const { Sider, Content, Header,Footer } = Layout;
 class VisitorMain extends React.Component {
   state = {
     visible:true,
+    exist:true,
     userInfo:{
       id: VISITOR_USERID,
       avatar:"",
@@ -32,7 +33,12 @@ class VisitorMain extends React.Component {
         if(res.code === 0){
             this.setState({userInfo:res.user,isLoadingUserInfo:false});
         }else{
-            console.log(res)
+          if(res.code === 404){
+            this.setState({exist:false});
+          }else if(res.code === 403){
+            this.setState({visible:false});
+          }
+          console.log(res)
         }
     }).catch((err) => {
         if (err === 302) {
@@ -51,26 +57,17 @@ class VisitorMain extends React.Component {
     }
   }
   render() {
-    if(this.state.visible){
+    if(!this.state.exist){
       return (
-        <Layout className="layout">
-          <Header className="header">
-            <span>
-              {this.state.userInfo.username}的Recording
-            </span>
-           
-          </Header>
-          <Layout>
-          <Sider className="silder">
-            <UserInfoPage userInfo={this.state.userInfo} visitor={true}/>
-          </Sider>
-          <Content className="content">
-            {this.getNotes()}
-          </Content>
-          </Layout>
-        </Layout>
+        <Result
+          status="404"
+          title="404"
+          subTitle="用户不存在"
+          extra={<Button type="primary" onClick={()=>window.open(ROOT+"/signin",'_self')}>回到首页</Button>}
+        />
       );
-    }else{
+    }
+    if(!this.state.visible){
       return (
         <Result
           status="403"
@@ -80,7 +77,25 @@ class VisitorMain extends React.Component {
         />
       );
     }
-
+    
+    return (
+      <Layout className="layout">
+        <Header className="header">
+          <span>
+            {this.state.userInfo.username}的Recording
+          </span>
+          
+        </Header>
+        <Layout>
+        <Sider className="silder">
+          <UserInfoPage userInfo={this.state.userInfo} visitor={true}/>
+        </Sider>
+        <Content className="content">
+          {this.getNotes()}
+        </Content>
+        </Layout>
+      </Layout>
+    );
   }
 }
 

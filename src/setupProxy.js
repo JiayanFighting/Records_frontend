@@ -84,6 +84,11 @@ module.exports = function(app) {
         secure: false,
         changeOrigin: false,
     }));
+    app.use(createProxyMiddleware('/directory/allOnly', {
+        target: API_ROOT,
+        secure: false,
+        changeOrigin: false,
+    }));
 
 
     // =================================================

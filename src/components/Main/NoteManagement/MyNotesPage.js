@@ -1,18 +1,20 @@
 import React, {Component} from 'react';
 import 'antd/dist/antd.css';
-import { List, Avatar, Space, message, Tag, Typography, Button} from "antd";
+import { List, Drawer, Space, message, Tag, Typography, Button, Layout} from "antd";
 import { MessageOutlined, LikeOutlined, StarOutlined,DoubleLeftOutlined } from '@ant-design/icons';
 // CSS
 import '../../../styles/Main/ReportManagement/ReportManagement.css';
 // components
 import NoteItem from './NoteItem';
 // services
-import {getNotesListService,updateNoteService} from "../../../services/noteService";
+import {getNotesListService,updateNoteService,getNoteService} from "../../../services/noteService";
 
 // const
 import { IMAGE_ROOT } from '../../../constants';
 import WriteBoard from '../WriteManagement/WriteBoard';
+import NoteDirectory from './NoteDirectory';
 const { Paragraph } = Typography;
+const { Sider, Content, Header,Footer } = Layout;
 const IconText = ({ icon, text }) => (
     <Space>
       {React.createElement(icon)}
@@ -31,10 +33,10 @@ class MyNotesPage extends Component {
         allTags:[],
         content:"",
         title:"",
+        showDrawer:false,
     }
     componentDidMount(){
         getNotesListService(this.props.userInfo.id).then((res) => {
-            console.log(res)
             if(res.code === 0){
                 this.setState({notes:res.list});
                 this.getAllTags();
@@ -56,11 +58,26 @@ class MyNotesPage extends Component {
         this.state.notes.forEach((item)=>{
             let itags = item.tags;
             itags.split(";").map((tag)=>{
-                console.log(tag);
                 tagset.add(tag);
             });
         });
         this.setState({allTags:tagset});
+    }
+
+    showNoteDetailByDirecctory=(id)=>{
+        getNoteService(id).then((res) => {
+            if(res.code === 0){
+                this.showDetail(res.note);
+            }else{
+                console.log(res)
+            }
+        }).catch((err) => {
+            if (err === 302) {
+                this.props.onSessionExpired();
+            } else {
+                message.error("Failed to get notes");
+            }
+        });
     }
 
     showDetail=(item)=>{
@@ -157,7 +174,6 @@ class MyNotesPage extends Component {
         note.title = this.state.title;
         note.content = this.state.content;
         updateNoteService(note).then((res) => {
-            console.log(res)
             if(res.code === 0){
                 this.setState({note:note});
                 this.closeEditing();
@@ -174,77 +190,103 @@ class MyNotesPage extends Component {
         });
     }
 
+    closeDrawer = () => {
+        this.setState({showDrawer: false,});
+    };
+
     render() {
         return (
            <div style={{backgroundColor:"white"}}>
-               <div style={this.state.showNoteDetailPage||this.state.showEditNotePage?{display:'none'}:{}}>
-                   <div style={{paddingTop:5,paddingLeft:5}}>
-                       <List
-                       grid={{
-                        gutter: 2,
-                        xs: 10,
-                        sm: 15,
-                        md: 15,
-                        lg: 15,
-                        xl: 15,
-                        xxl: 20,
-                      }}
-                        // pagination={{pageSize: 20}}
-                        dataSource={this.state.allTags}
-                        renderItem={(item,index) => (
-                        <List.Item>
-                            <Tag color={tagColors[index%tagColors.length]}>{item}</Tag>
-                        </List.Item>
-                        )}
-                    />
-                   </div>
-                    <List
-                        style={{textAlign:"left",padding:"2px 20px",}}
-                        itemLayout="vertical"
-                        // size="large"
-                        pagination={{pageSize: 5}}
-                        dataSource={this.state.notes}
-                        renderItem={item => (
-                        <List.Item
-                            key={item.title}
-                            actions={[
-                            <IconText icon={StarOutlined} text={item.star} key="list-vertical-star-o" />,
-                            <IconText icon={LikeOutlined} text={item.thumbUp} key="list-vertical-like-o" />,
-                            <IconText icon={MessageOutlined} text="2" key="list-vertical-message" />,
-                            ]}
-                            extra={
-                            item.cover === null || item.cover.length ===0?'':
-                            <img
-                                height={200}
-                                alt="logo"
-                                src={item.cover}
-                            />
-                            }
+                {/* <div style={{textAlign:"left",marginLeft:20}}>
+                   <a onClick={()=>this.setState({showDrawer:true})}>目录</a>
+                </div> */}
+               <Layout style={{backgroundColor:"white"}}>
+                    {this.state.showDrawer?
+                        <Drawer
+                        title="目录"
+                        placement="right"
+                        closable={true}
+                        onClose={this.closeDrawer}
+                        visible={this.state.showDrawer}
+                        getContainer={false}
+                        width="25vw"
+                        bodyStyle={{textAlign:"left"}}
                         >
-                            <List.Item.Meta
-                            // 我的笔记 不需要头像
-                            // avatar={this.props.userInfo.avatar === null || this.props.userInfo.avatar.length === 0?
-                            //     <Avatar icon={<UserOutlined />} />:
-                            //     <Avatar src={IMAGE_ROOT+this.props.userInfo.avatar} />
-                            // }
-                            title={<a onClick={()=>this.showDetail(item)}><h3>{item.title}</h3></a>}
-                            description={
-                                item.tags.split(';').map((tag,index)=>{
-                                    return <Tag color={tagColors[index%tagColors.length]}>{tag}</Tag>
-                                })
-                            }
+                        <NoteDirectory showDetail={this.showNoteDetailByDirecctory}/>
+                        </Drawer>
+                    :""}
+                   <Content>
+                    <div style={this.state.showNoteDetailPage||this.state.showEditNotePage?{display:'none'}:{}}>
+                        <div style={{paddingTop:5,paddingLeft:5}}>
+                            <List
+                            grid={{
+                                gutter: 2,
+                                xs: 10,
+                                sm: 15,
+                                md: 15,
+                                lg: 15,
+                                xl: 15,
+                                xxl: 20,
+                            }}
+                                // pagination={{pageSize: 20}}
+                                dataSource={this.state.allTags}
+                                renderItem={(item,index) => (
+                                <List.Item>
+                                    <Tag color={tagColors[index%tagColors.length]}>{item}</Tag>
+                                </List.Item>
+                                )}
                             />
-                            <Paragraph ellipsis={{ rows: 3, expandable: true, symbol: 'more' }}>
-                                {item.content}
-                            </Paragraph>
-                        </List.Item>
-                        )}
-                    />
-                </div>
-
-                {this.getNoteDetail()}
-
-                {this.getEditNotePage()}
+                        </div>
+                            <List
+                                style={{textAlign:"left",padding:"2px 20px",}}
+                                itemLayout="vertical"
+                                // size="large"
+                                pagination={{pageSize: 5}}
+                                dataSource={this.state.notes}
+                                renderItem={item => (
+                                <List.Item
+                                    key={item.title}
+                                    actions={[
+                                    <IconText icon={StarOutlined} text={item.star} key="list-vertical-star-o" />,
+                                    <IconText icon={LikeOutlined} text={item.thumbUp} key="list-vertical-like-o" />,
+                                    <IconText icon={MessageOutlined} text="2" key="list-vertical-message" />,
+                                    ]}
+                                    extra={
+                                    item.cover === null || item.cover.length ===0?'':
+                                    <img
+                                        height={200}
+                                        alt="logo"
+                                        src={item.cover}
+                                    />
+                                    }
+                                >
+                                    <List.Item.Meta
+                                    // 我的笔记 不需要头像
+                                    // avatar={this.props.userInfo.avatar === null || this.props.userInfo.avatar.length === 0?
+                                    //     <Avatar icon={<UserOutlined />} />:
+                                    //     <Avatar src={IMAGE_ROOT+this.props.userInfo.avatar} />
+                                    // }
+                                    title={<a onClick={()=>this.showDetail(item)}><h3>{item.title}</h3></a>}
+                                    description={
+                                        item.tags.split(';').map((tag,index)=>{
+                                            return <Tag color={tagColors[index%tagColors.length]}>{tag}</Tag>
+                                        })
+                                    }
+                                    />
+                                    <Paragraph ellipsis={{ rows: 3, expandable: true, symbol: 'more' }}>
+                                        {item.content}
+                                    </Paragraph>
+                                </List.Item>
+                                )}
+                            />
+                        </div>
+                        {this.getNoteDetail()}
+                        {this.getEditNotePage()}
+                    </Content>
+                    <Sider style={{backgroundColor:"white"}}>
+                        <NoteDirectory showDetail={this.showNoteDetailByDirecctory}/>
+                    </Sider>
+               </Layout>
            </div>
         );
     }

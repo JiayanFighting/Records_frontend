@@ -35,5 +35,6 @@ export function saveAvatar(data){
 }
 
 export function saveCover(data){
+    console.log(data)
     return postFormData('/photo/upload/cover',data)
 }

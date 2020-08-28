@@ -32,7 +32,7 @@ class UserInfoPage extends React.Component {
     saveAPhoto= (file) => {
         const data = new FormData();
         data.append('photo',file);
-        data.append('userId',this.props.userInfo.userId);
+        data.append('userId',this.props.userInfo.id);
         saveAvatar(data).then((res) => {
             this.props.handleUpdateAvatar(res.url);
         }).catch((err) => console.log(err));

@@ -62,7 +62,7 @@ module.exports = function(app) {
         secure: false,
         changeOrigin: false,
     }));
-    app.use(createProxyMiddleware('/note/one', {
+    app.use(createProxyMiddleware('/note/id', {
         target: API_ROOT,
         secure: false,
         changeOrigin: false,
@@ -73,6 +73,13 @@ module.exports = function(app) {
         changeOrigin: false,
     }));
     app.use(createProxyMiddleware('/note/thumbUp', {
+        target: API_ROOT,
+        secure: false,
+        changeOrigin: false,
+    }));
+    // =================================================
+    // about directory
+    app.use(createProxyMiddleware('/directory/all', {
         target: API_ROOT,
         secure: false,
         changeOrigin: false,

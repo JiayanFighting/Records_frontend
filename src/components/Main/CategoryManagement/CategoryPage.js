@@ -13,7 +13,7 @@ class CategoryPage extends Component {
         showNoteDetailPage:false,
     }
     componentDidMount(){
-        // getNotesListService(this.props.userInfo.userId).then((res) => {
+        // getNotesListService(this.props.userInfo.id).then((res) => {
         //     console.log(res)
         //     if(res.code === 0){
                 

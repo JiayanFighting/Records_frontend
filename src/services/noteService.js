@@ -9,6 +9,13 @@ export function getNotesListService(userId){
     return getRequest(`/note/list${url.search}`);
 }
 
+export function getNoteService(id){
+    var url = new URL(API_ROOT+'/note/id')
+    let content = {"id":id}
+    url.search = new URLSearchParams(content).toString();
+    return getRequest(`/note/id${url.search}`);
+}
+
 export function submitNoteService(note){
     return postRequest('/note/submit',note)
 }
@@ -27,4 +34,8 @@ export function getTagListService(userId){
     let content = {"userId":userId}
     url.search = new URLSearchParams(content).toString();
     return getRequest(`/note/tags${url.search}`);
+}
+
+export function getDirectoryListService(){
+    return getRequest(`/directory/all`);
 }

@@ -58,7 +58,7 @@ class SubmitPage extends Component {
     submitNote=(values)=>{
         this.setState({isLoading:true});
         let params ={
-            userId:this.props.userInfo.userId,
+            userId:this.props.userInfo.id,
             directory:0,
             type:values.type,
             tags:values.tags,

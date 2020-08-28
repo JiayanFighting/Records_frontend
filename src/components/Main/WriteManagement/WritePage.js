@@ -80,7 +80,7 @@ class WritePage extends Component {
         });
         console.log(tagString);
         let params ={
-            userId:this.props.userInfo.userId,
+            userId:this.props.userInfo.id,
             directory:0,
             type:values.type,
             tags:tagString,
@@ -118,9 +118,10 @@ class WritePage extends Component {
     };
 
     saveAPhoto= (file) => {
+        console.log(this.props.userInfo.id)
         const data = new FormData();
         data.append('photo',file);
-        data.append('userId',this.props.userInfo.userId);
+        data.append('userId',this.props.userInfo.id);
         saveCover(data).then((res) => {
             console.log(IMAGE_ROOT+res.url);
             this.setState({coverUrl:IMAGE_ROOT+res.url});

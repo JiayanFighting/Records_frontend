@@ -3,21 +3,9 @@ import marked from "marked";
 import highlight from "highlight.js";
 import { Row, Col, Popover, Switch, Select,message, Drawer,Menu, Dropdown,Divider} from "antd";
 import {
-  FullscreenOutlined,
-  CopyOutlined,
-  SmileOutlined,
-  PictureOutlined,
-  SaveOutlined,
-  DownloadOutlined,
-  QuestionCircleOutlined,
-  TableOutlined,
-  BoldOutlined,
-  ItalicOutlined,
-  OrderedListOutlined,
-  UnorderedListOutlined,
-  StrikethroughOutlined,
-  CodeOutlined,
-  MinusOutlined,
+  FullscreenOutlined,CopyOutlined,SmileOutlined,PictureOutlined,SaveOutlined,DownloadOutlined,
+  QuestionCircleOutlined,TableOutlined,BoldOutlined, ItalicOutlined,OrderedListOutlined,
+  UnorderedListOutlined,StrikethroughOutlined,CodeOutlined,MinusOutlined,
 } from "@ant-design/icons";
 import CodemirrorEditor, { CodemirrorHandler } from "../CodemirrorEditor";
 import * as clipboard from "clipboard-polyfill";
@@ -238,6 +226,7 @@ export default class WriteBoard extends React.Component {
           <Helper/>
         </Drawer>:""}
         
+        {/* 工具栏 */}
         {/* <Row style={{backgroundColor:"#D9D9D9"}}> */}
         <Row style={{backgroundColor:"white"}}>
           {/* <Col>
@@ -462,108 +451,7 @@ export default class WriteBoard extends React.Component {
             </div>
           </Col>  
         </Row>
-        {/* <Row style={{ backgroundColor: "white" }} justify="start">
-          <Col>
-            <Switch
-                size="medium"
-                checkedChildren="dark"
-                unCheckedChildren="dark"
-                defaultUnChecked
-                onClick={() => this.changeTheme()}
-            />
-          </Col>
-          <Col>
-            <Select
-                defaultValue={12}
-                size="small"
-                style={{ width: 60 }}
-                onChange={this.changeFontSize}
-            >
-              <Option value={8}>8</Option>
-              <Option value={12}>12</Option>
-              <Option value={14}>14</Option>
-              <Option value={18}>18</Option>
-              <Option value={24}>24</Option>
-              <Option value={36}>36</Option>
-            </Select>
-          </Col>
-          <Col>
-            <Button
-              size="small"
-              data-tut="tour_writeAndViewBoard_fullScreen"
-              onClick={this.fullScreen}
-              icon={
-                !this.state.isFullScreen ? (
-                  <FullscreenOutlined />
-                ) : (
-                  <FullscreenExitOutlined />
-                )
-              }
-            >
-            </Button>
-          </Col>
-          <Col>
-          <Popover 
-            content={this.showEmoji}
-            trigger="click"
-            visible={this.state.showEmoji}
-            onVisibleChange={this.handleEmojiShow}
-          >
-            <Button
-              size="small"
-              data-tut="tour_writeAndViewBoard_fullScreen"
-              icon={
-                  <SmileOutlined />
-              }
-            >
-            </Button>
-            </Popover>
-          </Col>
-          <Col>
-            <Dropdown overlay={menu} >
-              <Button  size="small" icon = {<VerticalAlignBottomOutlined/>}>
-              </Button>
-            </Dropdown>
-          </Col>
-          <Col>
-          <Tooltip title="Due to no permission, please use the copy button, paste and send email by youself">
-          <Button
-                icon = {<CopyOutlined />}
-                size = "small"
-                type = {this.state.contentCopied ? "loading" : "default"}
-                disabled = {this.state.contentCopied ? true : false}
-                onClick={() =>  {
-                  const item = new clipboard.ClipboardItem({
-                    "text/html":new Blob(
-                      [html],
-                      {type: "text/html"}
-                    )
-                  });
-                  clipboard.write([item]);
-                  message.success("Content Copied Successfully")
-                  this.setState({ contentCopied: true });
-                }}
-              >
-              </Button>    
-              </Tooltip> 
-          </Col>
-          <Col>
-            <Popover
-                content={shortcutHints}
-                trigger="click"
-                visible={this.state.shortCutsHintsShown}
-                onVisibleChange={this.handleVisibleChange}
-            >
-              <Button size="small" icon={<InfoCircleOutlined />}>
-              </Button>
-            </Popover>
-          </Col>
-          <Col>
-            <Button size="small" icon={<QuestionOutlined />} onClick={this.showDrawer}>
-            </Button>
-          </Col>
-        </Row>
-        */}
+        
         <header className="edit-header" key="header" style={{height:"48px"}}> 
           <input
             style={{

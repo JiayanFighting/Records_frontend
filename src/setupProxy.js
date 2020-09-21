@@ -90,6 +90,14 @@ module.exports = function(app) {
         changeOrigin: false,
     }));
 
+    // =================================================
+    // about tool
+    app.use(createProxyMiddleware('/tool/removeLine', {
+        target: API_ROOT,
+        secure: false,
+        changeOrigin: false,
+    }));
+
 
     // =================================================
     // about team

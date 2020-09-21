@@ -33,7 +33,9 @@ marked.setOptions({
 });
 
 class ViewBoard extends Component {
+  
   render() {
+    const content = this.props.withoutTitle?this.props.content:"# "+this.props.title+"\n"+this.props.content;
     return (
       <div
         className="common-container preview-container"
@@ -61,7 +63,7 @@ class ViewBoard extends Component {
             overflow: "scroll",
           }}
           dangerouslySetInnerHTML={{
-            __html: marked("# "+this.props.title+"\n"+this.props.content, {}),
+            __html: marked(content, {}),
           }}
         />
       </div>

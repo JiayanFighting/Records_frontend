@@ -30,6 +30,7 @@ import AllNotesPage from "../Main/NoteManagement/AllNotesPage";
 import TemplatesPage from "./TemplateManagement/TemplatesPage";
 import WritePage from "./WriteManagement/WritePage";
 import AboutmePage from "./UserManagement/AboutmePage";
+import ToolPage from "./ToolManagement/ToolPage";
 import CategoryPage from "./CategoryManagement/CategoryPage";
 
 const { Sider, Content, Header,Footer } = Layout;
@@ -154,6 +155,10 @@ class NewMain extends React.Component {
     } else if (this.state.currentTab === "Aboutme") {
       return (
           <AboutmePage />
+      );
+    }else if (this.state.currentTab === "Tools") {
+      return (
+          <ToolPage />
       );
     } else if (this.state.currentTab === "Team Management") {
       return (
@@ -424,6 +429,7 @@ class NewMain extends React.Component {
             <Menu.Item key="Square">广场</Menu.Item>
             <Menu.Item key="Category">分类</Menu.Item>
             <Menu.Item key="Aboutme">关于</Menu.Item>
+            <Menu.Item key="Tools">工具</Menu.Item>
           </Menu>
         </Header>
         <Layout>

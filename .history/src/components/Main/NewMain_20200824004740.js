@@ -402,6 +402,7 @@ class NewMain extends React.Component {
             <Menu.Item key="Templates">模板库</Menu.Item>
             <Menu.Item key="Templates">分类</Menu.Item>
             <Menu.Item key="Templates">关于我</Menu.Item>
+            <Menu.Item key="Tools">工具</Menu.Item>
           </Menu>
         </Header>
         <Layout>

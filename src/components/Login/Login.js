@@ -267,6 +267,10 @@ class Login extends Component {
               </div>
           </Modal>
         </div>
+        <div style={{"position": "absolute","bottom":20,"left":600}}>
+        备案号: <a href="https://beian.miit.gov.cn/" target="_blank">渝ICP备2021005006号
+-1</a>
+        </div>
       </div>
     );
   }

@@ -449,7 +449,8 @@ class NewMain extends React.Component {
             </div>
           </Content>
         </Layout>
-        {/* <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer> */}
+        <Footer style={{ textAlign: 'center' }}>备案号: <a href="https://beian.miit.gov.cn/" target="_blank">渝ICP备2021005006号
+-1</a></Footer>
       </Layout>
   );
   }

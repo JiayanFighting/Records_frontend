@@ -240,7 +240,8 @@ class TemplatesPage extends Component {
                                     <Card title={item.title}
                                         style={{ width: "25vw" }}
                                         actions={[
-                                            <Popconfirm title="Sure to Delete?" onConfirm={() => this.handleOkDelete(item.id)}>
+                                            <Popconfirm title="确认删除?" onConfirm={() => this.handleOkDelete(item.id)} okText="是"
+                                                cancelText="否">
                                                 <DeleteOutlined key="delete" />
                                             </Popconfirm>,
                                             <EditOutlined key="edit"
@@ -270,8 +271,9 @@ class TemplatesPage extends Component {
                 {/*更新模板页面 */}
                 {this.state.showEditPage ? <div>
                     <Col span={4}>
-                        <Button>
-                            <a onClick={() => { this.closeEditPage() }}><DoubleLeftOutlined />返回</a></Button>
+                        <Button type="link" onClick={() => { this.closeEditPage() }}>
+                            <DoubleLeftOutlined />返回
+                        </Button>
                     </Col>
                     <Row type={"flex"} justify={"center"} align={"top"}>
                         <Col span={24}>
@@ -306,13 +308,11 @@ class TemplatesPage extends Component {
 
                 {/* 创建模板页面 */}
                 {this.state.showCreatePage ? <div>
-
-                    <Row justify="end" style={{ paddingTop: 5 }}>
-                        <Col span={4}>
-                            <a onClick={() => { this.closeCreatePage() }}><DoubleLeftOutlined />返回</a>
-                        </Col>
-                        <Col span={4}>
-                            <Button type="primary" onClick={() => this.showModal("showSubmitModal")}>提交</Button>
+                    <Row justify="begin" style={{ paddingTop: 5 }}>
+                        <Col span={2}>
+                            <Button type="link" onClick={() => { this.closeCreatePage() }}>
+                                <DoubleLeftOutlined />返回
+                            </Button>
                         </Col>
                     </Row>
                     <Row type={"flex"} justify={"center"} align={"top"}>
@@ -324,7 +324,11 @@ class TemplatesPage extends Component {
                                 <Form.Item name={['template', 'type']} label="类型" >
                                     <Input />
                                 </Form.Item>
-
+                                <Form.Item wrapperCol={{ span: 8, offset: 8 }}>
+                                    <Button type="primary" htmlType="submit">
+                                        保存
+                                    </Button>
+                                </Form.Item>
                                 <WriteBoard
                                     setContent={this.setContent.bind(this)}
                                     setTheme={this.setTitle.bind(this)}
@@ -348,12 +352,6 @@ class TemplatesPage extends Component {
                                     // saveDraft = {this.saveDraft}
                                     hideSomeFunctions={true}
                                 /> */}
-
-                                <Form.Item wrapperCol={{ span: 8, offset: 8 }}>
-                                    <Button type="primary" htmlType="submit">
-                                        保存
-                                    </Button>
-                                </Form.Item>
                             </Form>
                         </Col>
                     </Row>

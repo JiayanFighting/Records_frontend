@@ -55,9 +55,9 @@ class NoteItem extends Component {
     render() {
         return (
             <div style={{ backgroundColor: "white", paddingLeft: 30, textAlign: "left" }}>
-                <button style={{ backgroundColor: "F1F2F4", border: "0.5px solid gray " }}>
-                    <a onClick={() => this.props.closeDetail()}><DoubleLeftOutlined />返回</a>
-                </button>
+                <Button type="link" onClick={() => this.props.closeDetail()}>
+                    <DoubleLeftOutlined />返回
+                </Button>
                 <Row>
                     <ViewBoard content={this.props.note.content} title={this.props.note.title} width={"80vw"} />
                 </Row>
@@ -97,10 +97,10 @@ class NoteItem extends Component {
                 <div className="operation">
                     <Button type="primary" onClick={() => this.props.editNote()}><EditOutlined />编辑</Button>
                     <Popconfirm
-                        title="你确定删除这篇笔记吗?"
+                        title="确定删除笔记吗?"
                         onConfirm={() => this.deleteNote()}
-                        okText="Yes"
-                        cancelText="No"
+                        okText="是"
+                        cancelText="否"
                     >
                         <Button danger><DeleteOutlined />删除</Button>
                     </Popconfirm>

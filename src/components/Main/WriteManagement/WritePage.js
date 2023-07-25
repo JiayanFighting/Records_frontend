@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Col, Row, Button, Input, Spin, message, Form, Upload, Tree } from "antd";
+import { Col, Row, Button, Input, Spin, message, Form, Upload, Tree, Card, Layout, List, Select, Tag, Popconfirm } from "antd";
 import 'antd/dist/antd.css';
-import { DeleteOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, DoubleLeftOutlined, CheckOutlined, CheckCircleOutlined } from '@ant-design/icons';
+import marked from "marked";
 import { IMAGE_ROOT } from '../../../constants';
 // self components
 import EditableTagGroup from './EditableTagGroup';
@@ -30,6 +31,8 @@ class WritePage extends Component {
         templateTitle: "",
         showSubmitModal: false,
         showSubmitTemplateModal: false,
+        showTemplatesModal: false,
+        templates: [],
         isLoading: false,
         tags: [],
         coverUrl: "",
@@ -176,6 +179,43 @@ class WritePage extends Component {
         });
     }
 
+    getTemplatesAndShowModal = () => {
+        this.getTemplates();
+        this.setState({
+            showTemplatesModal: true,
+        });
+    };
+
+
+    getTemplates = () => {
+        console.log("1111")
+        let template = {
+            teamId: null,
+            type: null,
+            title: null,
+            content: null,
+        };
+        getAllTemplatesService(template).then((res) => {
+            console.log(res)
+            if (res.code === 0) {
+                this.setState({
+                    templates: res.templates
+                })
+            }
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
+    chooseTemplate = (template) => {
+        console.log(template)
+        this.setState({
+            title: template.title,
+            content: template.content,
+            showTemplatesModal: false,
+        })
+    }
+
     onSelect = (keys, event) => {
         console.log('Trigger Select', keys, event);
         console.log(event.node.key);
@@ -183,13 +223,20 @@ class WritePage extends Component {
     };
 
     render() {
+        const renderer = new marked.Renderer();
+        renderer.link = function (href, title, text) {
+            return `<a target="_blank" rel="noopener noreferrer" href="${href}" title="${title}">${text}</a>`;
+        };
         return (
             <div style={{ backgroundColor: "white" }}>
                 <Row justify="end" style={{ paddingTop: 5 }}>
-                    <Col span={4}>
+                    <Col span={2}>
                         <Button type="primary" onClick={() => this.showModal("showSubmitModal")}>提交</Button>
                     </Col>
-                    <Col span={4}>
+                    <Col span={2}>
+                        <Button onClick={() => this.getTemplatesAndShowModal()}>选择模版</Button>
+                    </Col>
+                    <Col span={2}>
                         <Button onClick={() => this.showModal("showSubmitTemplateModal")}>保存为模板</Button>
                     </Col>
                 </Row>
@@ -336,6 +383,57 @@ class WritePage extends Component {
                                 </Col>
 
                             </Row>
+
+                        </div>
+                    </Modal>
+                </div>
+
+                {/* 选择模版窗口 */}
+                <div>
+                    <Modal
+                        show={this.state.showTemplatesModal}
+                        showOk={false}
+                        showCancel={false}
+                        handleCancel={() => this.exitModal("showTemplatesModal")}
+                        handleOk={() => this.createTemplate("")}
+                        okMessage={"提交"}
+                        cancelMessage={"取消"}
+                        cancelBtnType={""}
+                        okBtnType={"primary"}
+                        title={"提交模板"}
+                    >
+                        <div style={{ textAlign: "left", width: "60vw" }}>
+                            <List
+                                grid={{ gutter: 16, column: 4 }}
+                                dataSource={this.state.templates}
+                                pagination={{
+                                    pageSize: 4,
+                                    size: "small",
+                                }}
+                                renderItem={item => (
+                                    <List.Item>
+                                        <Row>
+                                            <Card title={item.title}
+                                                style={{ width: "25vw" }}
+                                                actions={[
+                                                    <CheckCircleOutlined onClick={() => this.chooseTemplate(item)} />,
+                                                ]} >
+                                                <Tag color="blue">{item.type}</Tag>
+                                                <div
+                                                    style={{ "textAlign": "left", height: 250, background: "white", overflow: "scroll", padding: 10, "marginTop": 10 }}
+                                                    dangerouslySetInnerHTML={{
+                                                        __html: marked(item.content, {
+                                                            renderer: renderer,
+                                                            breaks: true,
+                                                            gfm: true,
+                                                        }),
+                                                    }}
+                                                />
+                                            </Card>
+                                        </Row>
+                                    </List.Item>
+                                )}
+                            />
 
                         </div>
                     </Modal>

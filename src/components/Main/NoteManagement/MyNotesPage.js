@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
-import { List, Drawer, Space, message, Tag, Typography, Button, Layout, Col } from "antd";
-import { MessageOutlined, LikeOutlined, StarOutlined, DoubleLeftOutlined } from '@ant-design/icons';
+import { List, Drawer, Space, message, Tag, Typography, Button, Layout, Card, Select, Row, Col, Form, Popconfirm, SelectProps } from "antd";
+import { MessageOutlined, LikeOutlined, StarOutlined, DoubleLeftOutlined, SearchOutlined } from '@ant-design/icons';
+
 // CSS
 import '../../../styles/Main/ReportManagement/ReportManagement.css';
 // components
 import NoteItem from './NoteItem';
 // services
-import { getNotesListService, updateNoteService, getNoteService } from "../../../services/noteService";
+import {
+    getNotesListService, updateNoteService, getNoteService,
+    getAllTypesService,
+    getAllTagsService,
+    queryNoteService
+} from "../../../services/noteService";
 
 // const
 import { IMAGE_ROOT } from '../../../constants';
@@ -21,6 +27,7 @@ const IconText = ({ icon, text }) => (
         {text}
     </Space>
 );
+const { Option } = Select;
 
 const tagColors = ["blue", "red", "geekblue", "purple", "magenta", "volcano", "orange", "gold", "lime", "green", "cyan"];
 
@@ -31,15 +38,20 @@ class MyNotesPage extends Component {
         showNoteDetailPage: false,
         showEditNotePage: false,
         allTags: [],
+        allTypes: [],
+        allDbTags: [],
         content: "",
         title: "",
         showDrawer: false,
+        searchCondition: { "types": [], "tags": [] },
     }
     componentDidMount() {
         getNotesListService(this.props.userInfo.id).then((res) => {
             if (res.code === 0) {
                 this.setState({ notes: res.list });
                 this.getAllTags();
+                this.getAllTypes();
+                this.getDbAllTags();
             } else {
                 console.log(res)
             }
@@ -53,11 +65,51 @@ class MyNotesPage extends Component {
 
     }
 
+    getAllTypes = () => {
+        getAllTypesService().then((res) => {
+            if (res.code === 0) {
+                let types = [];
+                res.list.forEach(item => {
+                    types.push({ "label": item, "value": item })
+                })
+                this.setState({ allTypes: types });
+            } else {
+                console.log(res)
+            }
+        }).catch((err) => {
+            if (err === 302) {
+                this.props.onSessionExpired();
+            } else {
+                message.error("Failed to get notes");
+            }
+        });
+    }
+
+    getDbAllTags = () => {
+        getAllTagsService().then((res) => {
+            if (res.code === 0) {
+                let tags = [];
+                res.list.forEach(item => {
+                    tags.push({ "label": item, "value": item })
+                })
+                this.setState({ allDbTags: tags });
+            } else {
+                console.log(res)
+            }
+        }).catch((err) => {
+            if (err === 302) {
+                this.props.onSessionExpired();
+            } else {
+                message.error("Failed to get notes");
+            }
+        });
+    }
+
     getAllTags = () => {
         let tagset = new Set()
         this.state.notes.forEach((item) => {
             let itags = item.tags;
-            itags.split(";").map((tag) => {
+            itags.split(",").map((tag) => {
                 tagset.add(tag);
             });
         });
@@ -192,6 +244,42 @@ class MyNotesPage extends Component {
         });
     }
 
+    handleTypeChange = (values) => {
+        let search = this.state.searchCondition;
+        search.types = values;
+        this.setState({ searchCondition: search });
+    }
+
+    handleTagsChange = (values) => {
+        let search = this.state.searchCondition;
+        search.tags = values;
+        this.setState({ searchCondition: search });
+    }
+    cleanSearchCondition = () => {
+        this.setState({ searchCondition: { "types": [], "tags": [] } });
+    }
+
+    searchNote = () => {
+        console.log(this.state.searchCondition)
+        queryNoteService(this.state.searchCondition).then((res) => {
+            if (res.code === 0) {
+                this.setState({ notes: res.list });
+            } else {
+                message.error(res.msg);
+            }
+        }).catch((err) => {
+            if (err === 302) {
+                this.props.onSessionExpired();
+            } else {
+                message.error("查询失败");
+            }
+        });
+    }
+
+    filterNode = (item) => {
+        console.log(item)
+    }
+
     closeDrawer = () => {
         this.setState({ showDrawer: false, });
     };
@@ -219,6 +307,43 @@ class MyNotesPage extends Component {
                         : ""}
                     <Content>
                         <div style={this.state.showNoteDetailPage || this.state.showEditNotePage ? { display: 'none' } : {}}>
+
+                            <div style={{ paddingTop: 5, paddingLeft: 5 }}>
+                                <Row justify={"left"} align={"top"}>
+                                    <Col span={6}>
+                                        分类：
+                                        <Space direction="vertical" style={{ width: '70%' }}>
+                                            <Select
+                                                mode="multiple"
+                                                allowClear
+                                                style={{ width: '100%' }}
+                                                placeholder="请选择分类"
+                                                onChange={this.handleTypeChange}
+                                                options={this.state.allTypes}
+                                            />
+                                        </Space>
+                                    </Col>
+                                    <Col span={6}>
+                                        标签：
+                                        <Space direction="vertical" style={{ width: '70%' }}>
+                                            <Select
+                                                mode="multiple"
+                                                allowClear
+                                                style={{ width: '100%' }}
+                                                placeholder="请选择标签"
+                                                onChange={this.handleTagsChange}
+                                                options={this.state.allDbTags}
+                                            />
+                                        </Space>
+                                    </Col>
+                                    <Col span={4}>
+                                        <Button type="primary" onClick={() => this.searchNote()}><SearchOutlined />查询</Button>
+                                    </Col>
+                                    <Col span={4}>
+                                        <Button onClick={() => this.cleanSearchCondition()}>重置</Button>
+                                    </Col>
+                                </Row>
+                            </div>
                             <div style={{ paddingTop: 5, paddingLeft: 5 }}>
                                 <List
                                     grid={{
@@ -232,55 +357,63 @@ class MyNotesPage extends Component {
                                     }}
                                     // pagination={{pageSize: 20}}
                                     dataSource={this.state.allTags}
-                                    renderItem={(item, index) => (
-                                        <List.Item>
-                                            <Tag color={tagColors[index % tagColors.length]}>{item}</Tag>
+                                    renderItem={(item, index) => {
+                                        if (item == null || item == "") {
+                                            return null;
+                                        }
+                                        return <List.Item>
+                                            <a onClick={() => this.filterNode(item)}>
+                                                <Tag color={tagColors[index % tagColors.length]}>{item}</Tag></a>
+                                        </List.Item>
+                                    }}
+                                />
+                            </div>
+                            <div style={{ border: "1px solid #ddd" }}>
+                                <List
+                                    style={{ textAlign: "left", padding: "1px 20px", }}
+                                    itemLayout="vertical"
+                                    // size="large"
+                                    pagination={{ pageSize: 5 }}
+                                    dataSource={this.state.notes}
+                                    renderItem={item => (
+                                        <List.Item
+                                            key={item.title}
+                                            actions={[
+                                                <IconText icon={StarOutlined} text={item.star} key="list-vertical-star-o" />,
+                                                <IconText icon={LikeOutlined} text={item.thumbUp} key="list-vertical-like-o" />,
+                                                <IconText icon={MessageOutlined} text="2" key="list-vertical-message" />,
+                                            ]}
+                                            extra={
+                                                item.cover === null || item.cover.length === 0 ? '' :
+                                                    <img
+                                                        height={200}
+                                                        alt="logo"
+                                                        src={item.cover}
+                                                    />
+                                            }
+                                        >
+                                            <List.Item.Meta
+                                                title={
+                                                    <Button type="link" size="large" style={{ color: "black", paddingLeft: "0px" }} onClick={() => this.showDetail(item)} >
+                                                        <strong>{item.title}</strong>
+                                                    </Button>
+                                                }
+                                                description={
+                                                    item.tags.split(',').map((tag, index) => {
+                                                        if (tag == null || tag == "" || tag == ' ') {
+                                                            return "";
+                                                        }
+                                                        return <Tag color={tagColors[index % tagColors.length]}>{tag}</Tag>
+                                                    })
+                                                }
+                                            />
+                                            <Paragraph ellipsis={{ rows: 3, expandable: true, symbol: 'more' }}>
+                                                {item.content}
+                                            </Paragraph>
                                         </List.Item>
                                     )}
                                 />
                             </div>
-                            <List
-                                style={{ textAlign: "left", padding: "2px 20px", }}
-                                itemLayout="vertical"
-                                // size="large"
-                                pagination={{ pageSize: 5 }}
-                                dataSource={this.state.notes}
-                                renderItem={item => (
-                                    <List.Item
-                                        key={item.title}
-                                        actions={[
-                                            <IconText icon={StarOutlined} text={item.star} key="list-vertical-star-o" />,
-                                            <IconText icon={LikeOutlined} text={item.thumbUp} key="list-vertical-like-o" />,
-                                            <IconText icon={MessageOutlined} text="2" key="list-vertical-message" />,
-                                        ]}
-                                        extra={
-                                            item.cover === null || item.cover.length === 0 ? '' :
-                                                <img
-                                                    height={200}
-                                                    alt="logo"
-                                                    src={item.cover}
-                                                />
-                                        }
-                                    >
-                                        <List.Item.Meta
-                                            // 我的笔记 不需要头像
-                                            // avatar={this.props.userInfo.avatar === null || this.props.userInfo.avatar.length === 0?
-                                            //     <Avatar icon={<UserOutlined />} />:
-                                            //     <Avatar src={IMAGE_ROOT+this.props.userInfo.avatar} />
-                                            // }
-                                            title={<a onClick={() => this.showDetail(item)}><h3>{item.title}</h3></a>}
-                                            description={
-                                                item.tags.split(';').map((tag, index) => {
-                                                    return <Tag color={tagColors[index % tagColors.length]}>{tag}</Tag>
-                                                })
-                                            }
-                                        />
-                                        <Paragraph ellipsis={{ rows: 3, expandable: true, symbol: 'more' }}>
-                                            {item.content}
-                                        </Paragraph>
-                                    </List.Item>
-                                )}
-                            />
                         </div>
                         {this.getNoteDetail()}
                         {this.getEditNotePage()}

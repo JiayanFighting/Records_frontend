@@ -201,7 +201,7 @@ class TemplatesPage extends Component {
                     {/* Search and create section */}
                     <Row style={{ margin: 10 }}>
                         {/* <Col span={2}>
-                            类型:
+                            分类:
                         </Col>
                         <Col span={4}>
                             <Select
@@ -321,7 +321,7 @@ class TemplatesPage extends Component {
                                 labelCol={{ span: 8 }}
                                 wrapperCol={{ span: 8 }}
                                 onFinish={this.createTemplate}>
-                                <Form.Item name={['template', 'type']} label="类型" >
+                                <Form.Item name={['template', 'type']} label="分类" >
                                     <Input />
                                 </Form.Item>
                                 <Form.Item wrapperCol={{ span: 8, offset: 8 }}>

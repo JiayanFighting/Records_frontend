@@ -91,7 +91,7 @@ class WritePage extends Component {
             if (index === 0) {
                 tagString = item;
             } else {
-                tagString = tagString + ";" + item;
+                tagString = tagString + "," + item;
             }
         });
         console.log(tagString);
@@ -280,7 +280,7 @@ class WritePage extends Component {
                                         name="basic"
                                         onFinish={this.submitNote}
                                     >
-                                        <Form.Item label="Type" name="type"
+                                        <Form.Item label="分类" name="type"
                                             rules={[{ required: true, message: '请选择分类!' }]}
                                         >
                                             <Input />

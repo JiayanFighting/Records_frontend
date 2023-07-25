@@ -77,6 +77,21 @@ module.exports = function (app) {
         secure: false,
         changeOrigin: false,
     }));
+    app.use(createProxyMiddleware('/note/getAllTypes', {
+        target: API_ROOT,
+        secure: false,
+        changeOrigin: false,
+    }));
+    app.use(createProxyMiddleware('/note/getAllTags', {
+        target: API_ROOT,
+        secure: false,
+        changeOrigin: false,
+    }));
+    app.use(createProxyMiddleware('/note/query', {
+        target: API_ROOT,
+        secure: false,
+        changeOrigin: false,
+    }));
     // =================================================
     // about directory
     app.use(createProxyMiddleware('/directory/all', {

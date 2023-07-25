@@ -2,7 +2,7 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 let API_ROOT = 'http://localhost:8080';
 // let Photo_ROOT = 'https://localhost:8082'
 
-module.exports = function(app) {
+module.exports = function (app) {
     app.use(createProxyMiddleware('/login', {
         target: API_ROOT,
         secure: false,
@@ -156,7 +156,7 @@ module.exports = function(app) {
         secure: false,
         changeOrigin: false,
     }));
-     // team end =================================================
+    // team end =================================================
 
     //report Apis
     app.use(createProxyMiddleware('/report', {
@@ -229,6 +229,12 @@ module.exports = function(app) {
         changeOrigin: false,                         //是否需要改变原始主机头为目标URL默认false，
     }));
 
+    app.use(createProxyMiddleware('/template/getAllTemplates', {
+        target: API_ROOT,
+        secure: false,
+        changeOrigin: false,                         //是否需要改变原始主机头为目标URL默认false，
+    }));
+
     // =================================================
     // about sprint
     app.use(createProxyMiddleware('/team/sprint/create', {
@@ -262,7 +268,7 @@ module.exports = function(app) {
         changeOrigin: false,
     }));
     // sprint end =================================================
-    
+
     // =================================================
     // about user
     app.use(createProxyMiddleware('/user/search', {

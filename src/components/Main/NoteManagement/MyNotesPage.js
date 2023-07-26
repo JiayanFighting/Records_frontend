@@ -287,9 +287,6 @@ class MyNotesPage extends Component {
     render() {
         return (
             <div style={{ backgroundColor: "white" }}>
-                {/* <div style={{textAlign:"left",marginLeft:20}}>
-                   <a onClick={()=>this.setState({showDrawer:true})}>目录</a>
-                </div> */}
                 <Layout style={{ backgroundColor: "white" }}>
                     {this.state.showDrawer ?
                         <Drawer
@@ -307,7 +304,7 @@ class MyNotesPage extends Component {
                         : ""}
                     <Content>
                         <div style={this.state.showNoteDetailPage || this.state.showEditNotePage ? { display: 'none' } : {}}>
-
+                            {/* 查询模块 */}
                             <div style={{ paddingTop: 5, paddingLeft: 5 }}>
                                 <Row justify={"left"} align={"top"}>
                                     <Col span={6}>
@@ -344,6 +341,7 @@ class MyNotesPage extends Component {
                                     </Col>
                                 </Row>
                             </div>
+                            {/* tag展示模块 */}
                             <div style={{ paddingTop: 5, paddingLeft: 5 }}>
                                 <List
                                     grid={{
@@ -368,6 +366,7 @@ class MyNotesPage extends Component {
                                     }}
                                 />
                             </div>
+                            {/* 笔记列表模块 */}
                             <div style={{ border: "1px solid #ddd" }}>
                                 <List
                                     style={{ textAlign: "left", padding: "1px 20px", }}
@@ -419,6 +418,9 @@ class MyNotesPage extends Component {
                         {this.getEditNotePage()}
                     </Content>
                     <Sider style={{ backgroundColor: "white" }}>
+                        <div style={{ textAlign: "left", marginLeft: 20 }}>
+                            <a onClick={() => this.setState({ showDrawer: true })}>目录</a>
+                        </div>
                         <NoteDirectory showDetail={this.showNoteDetailByDirecctory} />
                     </Sider>
                 </Layout>

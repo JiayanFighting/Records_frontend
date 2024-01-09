@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
-import { List, Drawer, Space, message, Tag, Typography, Button, Layout, Card, Select, Row, Col, Form, Popconfirm, SelectProps } from "antd";
+import { List, Drawer, Space, message, Tag, Typography, Button, Layout, Card, Select, Row, Col, Form, Popconfirm, SelectProps, Input } from "antd";
 import { MessageOutlined, LikeOutlined, StarOutlined, DoubleLeftOutlined, SearchOutlined } from '@ant-design/icons';
 
 // CSS
@@ -43,7 +43,6 @@ class MyNotesPage extends Component {
         content: "",
         title: "",
         showDrawer: false,
-        searchCondition: { "types": [], "tags": [] },
     }
     componentDidMount() {
         getNotesListService(this.props.userInfo.id).then((res) => {
@@ -244,24 +243,8 @@ class MyNotesPage extends Component {
         });
     }
 
-    handleTypeChange = (values) => {
-        let search = this.state.searchCondition;
-        search.types = values;
-        this.setState({ searchCondition: search });
-    }
-
-    handleTagsChange = (values) => {
-        let search = this.state.searchCondition;
-        search.tags = values;
-        this.setState({ searchCondition: search });
-    }
-    cleanSearchCondition = () => {
-        this.setState({ searchCondition: { "types": [], "tags": [] } });
-    }
-
-    searchNote = () => {
-        console.log(this.state.searchCondition)
-        queryNoteService(this.state.searchCondition).then((res) => {
+    searchNote = (values) => {
+        queryNoteService(values).then((res) => {
             if (res.code === 0) {
                 this.setState({ notes: res.list });
             } else {
@@ -277,7 +260,9 @@ class MyNotesPage extends Component {
     }
 
     filterNode = (item) => {
-        console.log(item)
+        let search = { "types": [], "tags": [], "title": "", "content": "" };
+        search.tags.push(item);
+        this.searchNote(search);
     }
 
     closeDrawer = () => {
@@ -306,40 +291,43 @@ class MyNotesPage extends Component {
                         <div style={this.state.showNoteDetailPage || this.state.showEditNotePage ? { display: 'none' } : {}}>
                             {/* 查询模块 */}
                             <div style={{ paddingTop: 5, paddingLeft: 5 }}>
-                                <Row justify={"left"} align={"top"}>
-                                    <Col span={6}>
-                                        分类：
-                                        <Space direction="vertical" style={{ width: '70%' }}>
-                                            <Select
-                                                mode="multiple"
-                                                allowClear
-                                                style={{ width: '100%' }}
-                                                placeholder="请选择分类"
-                                                onChange={this.handleTypeChange}
-                                                options={this.state.allTypes}
-                                            />
-                                        </Space>
-                                    </Col>
-                                    <Col span={6}>
-                                        标签：
-                                        <Space direction="vertical" style={{ width: '70%' }}>
-                                            <Select
-                                                mode="multiple"
-                                                allowClear
-                                                style={{ width: '100%' }}
-                                                placeholder="请选择标签"
-                                                onChange={this.handleTagsChange}
-                                                options={this.state.allDbTags}
-                                            />
-                                        </Space>
-                                    </Col>
-                                    <Col span={4}>
-                                        <Button type="primary" onClick={() => this.searchNote()}><SearchOutlined />查询</Button>
-                                    </Col>
-                                    <Col span={4}>
-                                        <Button onClick={() => this.cleanSearchCondition()}>重置</Button>
-                                    </Col>
-                                </Row>
+                                <Form layout='inline' name="basic" initialValues={{ remember: true }}
+                                    onFinish={this.searchNote}
+                                    ref={"searchForm"}>
+                                    <Form.Item label="分类" name="type"  >
+                                        <Select
+                                            mode="multiple"
+                                            allowClear
+                                            style={{ width: '130px' }}
+                                            placeholder="请选择分类"
+                                            options={this.state.allTypes}
+                                        />
+                                    </Form.Item>
+                                    <Form.Item label="标签" name="tags" >
+                                        <Select
+                                            mode="multiple"
+                                            allowClear
+                                            style={{ width: '130px' }}
+                                            placeholder="请选择标签"
+                                            options={this.state.allDbTags}
+                                        />
+                                    </Form.Item>
+                                    <Form.Item label="标题" name="title"  >
+                                        <Input placeholder="支持模糊查询" />
+                                    </Form.Item>
+                                    <Form.Item label="内容" name="content"  >
+                                        <Input placeholder="支持模糊查询" />
+                                    </Form.Item>
+                                    <Form.Item  >
+                                        <Button type="primary" htmlType="submit">
+                                            查询
+                                        </Button>
+                                    </Form.Item>
+                                    <Form.Item >
+                                        <Button htmlType="reset">重置</Button>
+                                    </Form.Item>
+                                </Form>
+
                             </div>
                             {/* tag展示模块 */}
                             <div style={{ paddingTop: 5, paddingLeft: 5 }}>
